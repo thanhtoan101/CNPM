@@ -27,4 +27,4 @@ The project aims to build a digital ecosystem photographers, Film Labs, photogra
 - Microsoft Azure
 - OpenAI GPT API
 - Retrieval-Augmented Generation
-- Elasticsearch or OpenSearch
+- Elasticsearch or OpenSearch.
