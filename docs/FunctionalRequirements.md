@@ -34,7 +34,39 @@ Allow photographers to search for and select a suitable Film Lab based on their 
 
 The photographer finds a suitable Film Lab and can continue to book its services.
 
-### Business Core Flow 2
+### Business Core Flow 2 - Film Processing Service Booking
+
+**Objective**
+
+Allow photographers to book a film processing service from a selected Film Lab.
+
+**Actors**
+
+- Photographer
+- Film Lab
+- System
+
+**Main Flow**
+
+1. The photographer selects a Film Lab from the discovery results.
+2. The photographer views the available processing services and prices.
+3. The photographer chooses options such as film type, development method, scan quality, and film return method.
+4. The photographer enters the number of film rolls and delivery or drop-off information.
+5. The system calculates the estimated price and processing time.
+6. The photographer reviews the booking details and submits the request.
+7. The system creates the booking and sends it to the Film Lab.
+8. The Film Lab accepts the request.
+9. The system confirms the booking and provides an order code and handling instructions.
+
+**Alternative Flow**
+
+- If a selected service is unavailable, the system asks the photographer to choose another service.
+- If the Film Lab cannot accept the request, the photographer is notified and can select another Film Lab.
+- If required information is missing, the system asks the photographer to complete it before submitting.
+
+**Result**
+
+A confirmed film processing booking is recorded, and both the photographer and Film Lab can track the order.
 
 ### Business Core Flow 3
 
