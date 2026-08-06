@@ -71,7 +71,43 @@ Allow photographers to create a film processing service order and choose how the
 
 A confirmed service order and collection method are recorded, allowing the film rolls to be received and prepared for processing.
 
-### Business Core Flow 3
+### Business Core Flow 3 - Film Processing Lifecycle Management
+
+**Objective**
+
+Allow Film Lab operators to manage every stage of film processing while photographers monitor order progress in real time.
+
+**Actors**
+
+- Film Lab Operator
+- Photographer
+- System
+
+**Main Flow**
+
+1. The Film Lab receives the film rolls and verifies the order code, requested services, and physical condition of the rolls.
+2. The operator records receipt of the film rolls, and the system updates the order status to Received.
+3. The Film Lab schedules the order for processing.
+4. The operator performs chemical development and records completion of the stage.
+5. The operator completes washing and drying and updates the corresponding processing stages.
+6. The operator scans the developed film according to the requested scan quality.
+7. The operator prepares the digital images, including orientation and basic output adjustments.
+8. The Film Lab performs final quality verification for the processed film and digital scans.
+9. The system records each stage with its status, timestamp, notes, and estimated completion time.
+10. Each update is synchronized with the customer application, and the photographer receives relevant notifications.
+11. The photographer monitors the complete processing lifecycle in real time.
+12. After quality verification, the Film Lab marks processing as completed and forwards the digital scans to the delivery and archive flow.
+
+**Alternative Flow**
+
+- If the received film rolls are damaged, missing, or do not match the order, processing is paused and the photographer is notified.
+- If a quality check fails, the Film Lab repeats the affected scanning or processing step when possible and updates the order status.
+- If processing is delayed, the system records a revised estimated completion time and notifies the photographer.
+- If synchronization is temporarily unavailable, updates are retained and synchronized when the connection is restored.
+
+**Result**
+
+The complete film processing lifecycle is recorded and visible to the photographer, with the order ready for digital delivery and archive management.
 
 ### Business Core Flow 4
 
