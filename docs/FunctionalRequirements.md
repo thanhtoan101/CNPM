@@ -109,7 +109,43 @@ Allow Film Lab operators to manage every stage of film processing while photogra
 
 The complete film processing lifecycle is recorded and visible to the photographer, with the order ready for digital delivery and archive management.
 
-### Business Core Flow 4
+### Business Core Flow 4 - Digital Delivery and Film Archive Management
+
+**Objective**
+
+Allow Film Labs to securely deliver digital scan files and allow photographers to view, download, organize, and permanently archive their scanned photographs.
+
+**Actors**
+
+- Photographer
+- Film Lab Operator
+- System
+- Cloud Storage Service
+
+**Main Flow**
+
+1. The Film Lab completes final quality verification and selects the corresponding service order.
+2. The Film Lab operator uploads the digital scan files to secure cloud storage.
+3. The system validates the uploaded files and associates them with the correct order and photographer.
+4. The operator verifies available metadata, including film stock, camera model, lens, shooting date, processing method, and scanning specifications.
+5. The system stores the scan files and metadata in the photographer's personal Digital Film Archive.
+6. The system sends a notification that the digital scans are available.
+7. The photographer opens the completed order or Digital Film Archive.
+8. The photographer previews the scanned photographs and reviews their metadata.
+9. The photographer downloads selected photographs or the complete set of full-resolution scan files.
+10. The photographer organizes photographs using albums, tags, and favorites.
+11. The system preserves the files and metadata for future access within the personal archive.
+
+**Alternative Flow**
+
+- If an upload fails, the system keeps the delivery pending and asks the Film Lab operator to retry.
+- If a file is corrupted or unsupported, the system rejects it and asks the operator to upload a valid replacement.
+- If metadata is incomplete, the system marks the missing fields and allows the Film Lab or photographer to add them later.
+- If a user is not authorized to access an archive item, the system denies the request and protects the stored files.
+
+**Result**
+
+The photographer receives secure access to the completed digital scans, and the photographs and associated metadata are preserved in the personal Digital Film Archive.
 
 ### Business Core Flow 5
 
