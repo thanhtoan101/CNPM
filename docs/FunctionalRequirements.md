@@ -34,39 +34,42 @@ Allow photographers to search for and select a suitable Film Lab based on their 
 
 The photographer finds a suitable Film Lab and can continue to book its services.
 
-### Business Core Flow 2 - Film Processing Service Booking
+### Business Core Flow 2 - Service Booking and Film Collection
 
 **Objective**
 
-Allow photographers to book a film processing service from a selected Film Lab.
+Allow photographers to create a film processing service order and choose how their film rolls are delivered to the selected Film Lab.
 
 **Actors**
 
 - Photographer
 - Film Lab
 - System
+- Delivery Partner
 
 **Main Flow**
 
 1. The photographer selects a Film Lab from the discovery results.
-2. The photographer views the available processing services and prices.
-3. The photographer chooses options such as film type, development method, scan quality, and film return method.
-4. The photographer enters the number of film rolls and delivery or drop-off information.
-5. The system calculates the estimated price and processing time.
-6. The photographer reviews the booking details and submits the request.
-7. The system creates the booking and sends it to the Film Lab.
-8. The Film Lab accepts the request.
-9. The system confirms the booking and provides an order code and handling instructions.
+2. The photographer views the available services, prices, and estimated turnaround times.
+3. The photographer specifies the film type, processing options, scanning quality, printing requirements, and additional requests.
+4. The photographer chooses to deliver the film rolls directly or request a pickup service.
+5. If pickup is selected, the photographer enters the pickup information and chooses an available time.
+6. The system calculates the estimated service and collection costs.
+7. The photographer reviews the order details and submits the request.
+8. The system creates the service order and, when required, sends a pickup request to a Delivery Partner.
+9. The Film Lab verifies the incoming order and schedules processing.
+10. The system confirms the order and provides an order code and film handling instructions.
 
 **Alternative Flow**
 
-- If a selected service is unavailable, the system asks the photographer to choose another service.
-- If the Film Lab cannot accept the request, the photographer is notified and can select another Film Lab.
-- If required information is missing, the system asks the photographer to complete it before submitting.
+- If a selected service is unavailable, the system asks the photographer to change the service options.
+- If no Delivery Partner is available, the photographer can choose another pickup time or deliver the film rolls directly.
+- If the Film Lab cannot accept the order, the system notifies the photographer so another Film Lab can be selected.
+- If required information is missing, the system asks the photographer to complete it before submitting the order.
 
 **Result**
 
-A confirmed film processing booking is recorded, and both the photographer and Film Lab can track the order.
+A confirmed service order and collection method are recorded, allowing the film rolls to be received and prepared for processing.
 
 ### Business Core Flow 3
 
