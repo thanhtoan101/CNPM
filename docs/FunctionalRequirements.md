@@ -147,7 +147,44 @@ Allow Film Labs to securely deliver digital scan files and allow photographers t
 
 The photographer receives secure access to the completed digital scans, and the photographs and associated metadata are preserved in the personal Digital Film Archive.
 
-### Business Core Flow 5
+### Business Core Flow 5 - Marketplace and Equipment Exchange
+
+**Objective**
+
+Allow community members to buy, sell, or exchange analog photography equipment through a transparent and traceable marketplace.
+
+**Actors**
+
+- Buyer
+- Seller
+- System
+- System Administrator
+
+**Main Flow**
+
+1. The seller opens the Marketplace and creates a new product listing.
+2. The seller provides the item category, title, description, condition, price or exchange preference, photographs, and delivery information.
+3. The system validates the listing information and publishes the listing.
+4. The buyer searches and filters listings by item type, brand, price, condition, location, and seller rating.
+5. The system displays matching analog cameras, film rolls, lenses, and photography accessories.
+6. The buyer opens a listing and reviews the item details, seller profile, ratings, and transaction history.
+7. The buyer contacts the seller through the platform to ask questions, negotiate, or confirm exchange conditions.
+8. The buyer submits a purchase or exchange request.
+9. The seller reviews and accepts the request.
+10. The system records the transaction and updates its status throughout payment, delivery, receipt, or exchange completion.
+11. After completion, the buyer rates the seller and the system updates the seller's reputation.
+
+**Alternative Flow**
+
+- If listing information is incomplete or invalid, the system asks the seller to correct it before publication.
+- If an item is no longer available, the system closes the listing and prevents new requests.
+- If the seller rejects or does not respond to a request, the buyer is notified and may select another listing.
+- If a transaction is cancelled, disputed, or reported as fraudulent, the system records the issue and forwards it to the System Administrator for review.
+- If communication violates marketplace rules, the system restricts the content and allows users to report it.
+
+**Result**
+
+The purchase, sale, or exchange is transparently recorded, and marketplace listings, transaction status, and seller ratings are updated for future users.
 
 ### Business Core Flow 6
 
