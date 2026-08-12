@@ -186,7 +186,44 @@ Allow community members to buy, sell, or exchange analog photography equipment t
 
 The purchase, sale, or exchange is transparently recorded, and marketplace listings, transaction status, and seller ratings are updated for future users.
 
-### Business Core Flow 6
+### Business Core Flow 6 - Knowledge Sharing and Community Engagement
+
+**Objective**
+
+Allow photography experts and community members to share knowledge, join discussions, and participate in activities that strengthen the analog photography community.
+
+**Actors**
+
+- Photographer
+- Photography Expert
+- Community Member
+- System
+- System Administrator
+
+**Main Flow**
+
+1. A photography expert or community member opens the Knowledge Sharing section.
+2. The contributor creates content such as tutorials, technical articles, equipment reviews, laboratory recommendations, or personal photography experiences.
+3. The system validates the content and publishes it to the community knowledge base.
+4. Photographers and community members browse, search, and read published content.
+5. Users join discussions by commenting, asking questions, or sharing related experiences.
+6. A community organizer or expert creates a workshop or photowalk event with schedule, location, and participation details.
+7. Interested users register for the workshop or photowalk through the platform.
+8. The system records registrations and sends notifications or reminders about the event.
+9. Users attend the event and continue sharing feedback, notes, or follow-up discussion after it ends.
+10. The system preserves valuable discussions, event information, and educational content in the shared knowledge base for future users.
+
+**Alternative Flow**
+
+- If submitted content violates community guidelines or is incomplete, the system rejects or flags it for moderation before publication.
+- If a workshop or photowalk reaches maximum capacity, the system closes registration or places later users on a waiting list.
+- If an event is changed or cancelled, the system updates the event status and notifies registered users.
+- If a discussion contains inappropriate or misleading information, users can report it and the System Administrator reviews the report.
+- If search results are limited, the system suggests related articles, topics, or contributors.
+
+**Result**
+
+Community knowledge continuously grows through published content, discussions, and events, helping photographers learn, connect, and engage more actively on the platform.
 
 ## 3.2.c.2 AI-powered Personalized Assistance
 
