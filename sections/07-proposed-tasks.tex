@@ -5,4 +5,151 @@
 \section*{3.2.g Proposed Tasks}
 \addcontentsline{toc}{section}{3.2.g Proposed Tasks}
 
-% Team member: Write the Proposed Tasks section here.
+To distribute the workload fairly, the project is organized into five
+comparable work packages. Each member owns the analysis and design activities,
+implementation or research, testing, and documentation associated with the
+assigned package. The planned team capacity is allocated at approximately
+20\% per member and will be monitored through sprint backlog items and story
+points.
+
+\subsection*{Work Package 1: Requirements, Architecture, and Core Backend}
+
+\textbf{Owner: Nguyễn Thái Gia Bảo (Member 1)}
+
+\begin{itemize}
+	\item Analyze stakeholder needs and system requirements; define use cases,
+	acceptance criteria, business rules, and shared terminology.
+	\item Design the modular system architecture, PostgreSQL data model,
+	multi-tenant strategy, security model, and RESTful API conventions.
+	\item Implement authentication, Role-Based Access Control, core domain
+	services, database persistence, and integration contracts for storage,
+	payment, and logistics providers.
+	\item Prepare architecture diagrams, the entity-relationship diagram, API
+	documentation, unit tests, and backend integration tests.
+\end{itemize}
+
+The expected outputs are the requirements baseline, architecture and database
+designs, API specification, core backend services, and backend test evidence.
+
+\subsection*{Work Package 2: Photographer Mobile Application}
+
+\textbf{Owner: Huỳnh Gia Hợp (Member 2)}
+
+\begin{itemize}
+	\item Design and implement the Flutter application for Android and iOS.
+	\item Implement Film Lab discovery and comparison, service booking, pickup
+	and delivery requests, online payment, order tracking, and notifications.
+	\item Integrate the Digital Film Archive, Marketplace, community features,
+	and AI-powered Photography Assistant into the mobile experience.
+	\item Perform mobile usability, functional, API integration, and error-state
+	testing; document the user flows and implementation decisions.
+\end{itemize}
+
+The expected outputs are the mobile application, reusable user-interface
+components, API integrations, mobile user-flow documentation, and test results.
+
+\subsection*{Work Package 3: Film Lab and Administration Web Portals}
+
+\textbf{Owner: Nguyễn Đào Quốc Khánh (Member 3)}
+
+\begin{itemize}
+	\item Develop responsive ReactJS or Next.js portals for Film Lab operators
+	and System Administrators.
+	\item Implement Film Lab profiles, service packages, pricing, order intake,
+	processing-stage management, scan uploads, customer management, revenue
+	reports, and operational dashboards.
+	\item Implement user and Film Lab administration, service categories,
+	transaction fees, payment monitoring, Marketplace and content moderation,
+	complaint handling, and dispute resolution.
+	\item Perform web usability, functional, authorization, and API integration
+	testing; document administrative and laboratory workflows.
+\end{itemize}
+
+The expected outputs are the Film Lab portal, administration portal, responsive
+interfaces, workflow documentation, and web test evidence.
+
+\subsection*{Work Package 4: AI Components and Research-Based Learning}
+
+\textbf{Owner: Lê Thị Như Quân (Member 4)}
+
+\begin{itemize}
+	\item Prepare representative datasets, domain knowledge, baselines, and
+	evaluation protocols for the AI experiments.
+	\item Design and compare approaches for Film Lab and film-stock
+	recommendation, semantic search, the RAG-based Photography Assistant, and
+	Computer Vision-based scan-quality analysis.
+	\item Expose the selected models through documented service APIs and
+	integrate them with the shared backend contracts.
+	\item Report datasets, metrics, experimental results, limitations, and
+	responsible-use considerations for each AI component.
+\end{itemize}
+
+The expected outputs are AI service prototypes, a curated knowledge base, model
+APIs, reproducible experiment configurations, evaluation results, and the
+Research-Based Learning documentation.
+
+\subsection*{Work Package 5: Integration, Quality Assurance, and Delivery}
+
+\textbf{Owner: Nguyễn Thành Toàn (Member 5)}
+
+\begin{itemize}
+	\item Coordinate API contracts and integrate the mobile, web, backend, AI,
+	storage, search, payment, and logistics components into a unified MVP.
+	\item Define end-to-end scenarios and coordinate functional, integration,
+	security, recovery, and performance testing; track defects to closure with
+	the responsible module owners.
+	\item Configure GitHub Actions, cloud environments, deployment procedures,
+	logging, monitoring, backup, and recovery verification.
+	\item Consolidate technical evidence, terminology, cross-references, test
+	results, the final Capstone report, presentation slides, and the product
+	demonstration package.
+\end{itemize}
+
+The expected outputs are the integrated and deployed MVP, CI/CD pipeline,
+system-level test report, deployment and operations guide, consolidated report,
+presentation, and demonstration package.
+
+\subsection*{Shared Responsibilities and Workload Control}
+
+All members participate in sprint planning, peer review, integration testing,
+issue resolution, and the final demonstration. Each member remains responsible
+for correcting defects and supplying documentation for the owned component.
+Toàn coordinates system-level integration and report consolidation but does not
+replace the technical ownership of the other members. Backlog estimates and
+actual effort will be reviewed at the end of each sprint; work will be
+redistributed when a package materially exceeds its planned 20\% share.
+
+\subsection*{Implementation Sequence}
+
+\begin{enumerate}
+	\item \textbf{Requirements and architecture:} establish the requirements
+	baseline, architecture, data model, API contracts, and acceptance criteria.
+	\item \textbf{Parallel development and research:} implement the backend,
+	mobile application, web portals, and AI prototypes against the agreed
+	contracts.
+	\item \textbf{Incremental integration:} connect completed components early,
+	validate core business flows, and resolve contract mismatches.
+	\item \textbf{System testing and AI evaluation:} execute end-to-end quality
+	assurance while evaluating AI accuracy, retrieval quality, groundedness, and
+	scan-analysis performance.
+	\item \textbf{Deployment and finalization:} deploy the MVP, verify operations,
+	complete the documentation, and prepare the final report, presentation, and
+	demonstration.
+\end{enumerate}
+
+\subsection*{Overall Project Integration}
+
+The deliverables collectively form a unified ecosystem for analog photography.
+The mobile application is the primary customer interface, while the Film Lab
+and administration portals support service operations and platform governance.
+Backend services, cloud storage, search, and the Digital Film Archive provide a
+shared technical foundation. The Marketplace and knowledge-sharing modules
+support sustainable community engagement, and the AI layer enhances the
+ecosystem through personalized recommendations, semantic retrieval, contextual
+assistance, and scan-quality analysis.
+
+The five work packages directly correspond to the functional requirements,
+non-functional requirements, research objectives, and expected products. Clear
+ownership makes progress measurable, while the shared review, integration,
+testing, and documentation responsibilities preserve collective accountability
+for the final system.
