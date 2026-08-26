@@ -269,3 +269,69 @@ Provide photographers with personalized support when selecting Film Labs, evalua
 The photographer receives relevant assistance and can continue with a suitable Film Lab, improve a scan, resolve a technical question, or select an appropriate learning resource.
 
 ## 3.2.c.3 Main Functional Modules
+
+The platform is divided into the following main functional modules. Each module supports one or more business core flows described above.
+
+### Module 1 - Account and Profile Management
+
+- Allow users to register, sign in, sign out, and recover their accounts.
+- Manage personal information, photography interests, service preferences, and delivery addresses.
+- Support different roles, including Photographer, Film Lab Operator, Photography Expert, and System Administrator.
+
+### Module 2 - Film Lab Discovery and Recommendation
+
+- Maintain Film Lab profiles, services, prices, supported film formats, turnaround times, and locations.
+- Allow photographers to search, filter, compare, and view Film Labs.
+- Rank suitable Film Labs using user preferences, previous activities, ratings, and AI recommendations.
+- Allow users to submit ratings and reviews after using a Film Lab service.
+
+### Module 3 - Service Booking and Film Collection
+
+- Allow photographers to select processing, scanning, printing, and other service options.
+- Calculate estimated service and collection costs before order confirmation.
+- Support direct film delivery and pickup requests through Delivery Partners.
+- Create service orders and provide order codes, confirmations, and film handling instructions.
+
+### Module 4 - Film Processing Lifecycle Management
+
+- Allow Film Lab operators to receive, verify, and schedule film orders.
+- Record development, washing, drying, scanning, image preparation, and quality-check stages.
+- Store timestamps, notes, estimated completion times, and processing problems.
+- Synchronize order status so photographers can track progress in real time.
+
+### Module 5 - Digital Delivery and Film Archive
+
+- Allow Film Labs to upload completed digital scans to secure cloud storage.
+- Validate files and associate them with the correct order and photographer.
+- Allow photographers to preview, download, organize, tag, and favorite photographs.
+- Store film, camera, lens, processing, and scanning metadata with each archive item.
+- Protect archive files through authentication and access control.
+
+### Module 6 - Marketplace and Equipment Exchange
+
+- Allow users to create and manage listings for analog cameras, lenses, film rolls, and accessories.
+- Support listing search, filtering, buyer-seller communication, and purchase or exchange requests.
+- Track transaction status from agreement to delivery or exchange completion.
+- Support seller ratings, cancellation, dispute reporting, and administrator review.
+
+### Module 7 - Knowledge Sharing and Community
+
+- Allow experts and community members to publish tutorials, articles, reviews, and experiences.
+- Support searching, reading, commenting, asking questions, and community discussions.
+- Allow organizers to create workshops and photowalk events and manage registrations.
+- Support content reporting and moderation to maintain community quality.
+
+### Module 8 - AI-powered Personalized Assistance
+
+- Recommend Film Labs based on user preferences, history, and community feedback.
+- Identify common quality problems in uploaded film scans.
+- Answer technical questions using the platform knowledge base.
+- Recommend suitable tutorials, workshops, articles, and discussions.
+- Collect user feedback to improve later recommendations.
+
+### Module 9 - Notification and Administration
+
+- Notify users about order confirmation, pickup, processing progress, digital delivery, transactions, and events.
+- Allow administrators to manage users, Film Labs, service information, reported content, and disputes.
+- Record important system activities for monitoring and review.
+- Provide basic management reports about orders, users, marketplace activity, and community content.
