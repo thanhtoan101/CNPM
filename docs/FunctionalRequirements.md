@@ -227,4 +227,45 @@ Community knowledge continuously grows through published content, discussions, a
 
 ## 3.2.c.2 AI-powered Personalized Assistance
 
+**Objective**
+
+Provide photographers with personalized support when selecting Film Labs, evaluating scan quality, asking technical questions, and finding suitable learning resources.
+
+**Actors**
+
+- Photographer
+- AI Assistant
+- System
+- Film Lab
+
+**Preconditions**
+
+- The photographer has signed in to the platform.
+- The system has access to available Film Lab information and community knowledge resources.
+- The AI service is available.
+
+**Main Flow**
+
+1. The photographer opens the AI Assistant and selects a support topic or enters a question.
+2. The system collects relevant context, such as the photographer's preferences, previous service orders, saved Film Labs, and community feedback.
+3. The AI analyzes the request and available context.
+4. For Film Lab discovery, the AI recommends suitable labs and explains the main reasons for each recommendation.
+5. For scan quality support, the photographer submits a scan and the AI identifies possible issues such as dust, color cast, low contrast, or incorrect exposure.
+6. For technical questions, the AI uses the platform knowledge base to provide a clear answer and suggest related articles.
+7. For learning support, the AI recommends tutorials, workshops, or community discussions that match the photographer's interests and experience level.
+8. The photographer reviews the response and may ask a follow-up question or choose a recommended action.
+9. The system records the photographer's feedback to improve later recommendations.
+
+**Alternative Flow**
+
+- If the photographer has little or no activity history, the AI asks for basic preferences and provides general recommendations.
+- If the request is unclear, the AI asks the photographer to provide more information before giving an answer.
+- If the AI has low confidence, the system states the limitation and suggests verified community resources or direct support from a Film Lab.
+- If the AI service is unavailable, the system keeps standard search, filtering, and knowledge-base features available.
+- If an uploaded scan is invalid or unsupported, the system asks the photographer to upload another file.
+
+**Result**
+
+The photographer receives relevant assistance and can continue with a suitable Film Lab, improve a scan, resolve a technical question, or select an appropriate learning resource.
+
 ## 3.2.c.3 Main Functional Modules
