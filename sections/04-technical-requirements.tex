@@ -7,9 +7,10 @@
 
 This section defines the non-functional and technical requirements of the
 AI-powered Film Photography Platform. These requirements focus on security,
-performance, reliability, scalability, maintainability, and integration so
-that the proposed system can operate effectively for photographers, Film Labs,
-experts, delivery partners, administrators, and AI services.
+performance, reliability, scalability, maintainability, data consistency,
+and system integration to ensure that the proposed platform can operate
+effectively for photographers, Film Labs, photography experts, delivery
+partners, administrators, and AI services.
 
 \subsection{Security and Access Control}
 
@@ -18,35 +19,35 @@ for all users and system components.
 
 \begin{itemize}
     \item The system shall support secure user authentication using JSON Web
-    Token (JWT) and may support OAuth2 for external authentication.
+    Token (JWT) and may support OAuth2-based external identity integration.
 
     \item Role-Based Access Control (RBAC) shall be used to manage permissions
     for different roles, including Photographer, Film Lab Owner,
-    Photography Expert, Delivery Partner, System Administrator, and AI
-    Assistant.
+    Photography Expert, Delivery Partner, System Administrator, and
+    AI Assistant.
 
     \item Users shall only be allowed to access functions and information
     permitted by their assigned roles.
 
-    \item Passwords and other sensitive credentials shall not be stored in
-    plain text.
+    \item Passwords and other sensitive credentials shall not be stored
+    in plain text.
 
     \item Personal information, order information, payment-related information,
     and digital film scan files shall be protected against unauthorized access.
 
-    \item Communication between clients, backend services, and external APIs
-    shall use secure protocols such as HTTPS.
+    \item Communication between client applications, backend services,
+    and external APIs shall use secure communication protocols such as HTTPS.
 \end{itemize}
 
 \subsection{Data Storage and Protection}
 
-The system shall maintain reliable and consistent storage for both structured
+The system shall provide reliable and consistent storage for both structured
 business data and digital media files.
 
 \begin{itemize}
     \item PostgreSQL shall be used to store structured data such as user
-    accounts, Film Lab profiles, services, orders, reviews, and system
-    information.
+    accounts, Film Lab profiles, services, orders, reviews, and other
+    system information.
 
     \item Digital film scans and other large media files shall be stored using
     cloud storage such as Azure Blob Storage or Firebase Storage.
@@ -55,27 +56,27 @@ business data and digital media files.
     the risk of data loss.
 
     \item Access to stored digital scans shall be controlled according to
-    user permissions and order ownership.
+    user permissions and ownership of the corresponding orders or resources.
 
-    \item Data shall remain consistent when multiple users or services access
-    the system simultaneously.
+    \item Data shall remain consistent when multiple users or services
+    access and modify the system simultaneously.
 \end{itemize}
 
 \subsection{Performance}
 
 The platform shall provide responsive services for common user and Film Lab
-operations.
+operations under normal operating conditions.
 
 \begin{itemize}
     \item Common operations such as searching Film Labs, viewing services,
-    checking order status, and accessing user information should respond
-    within an acceptable time under normal operating conditions.
+    checking order status, and accessing user information shall provide
+    responsive results under normal operating conditions.
 
     \item Database queries shall be designed efficiently to support frequent
-    searches and transactions.
+    searches, transactions, and order-related operations.
 
     \item The system shall support efficient upload, storage, and retrieval
-    of digital scan files.
+    of digital film scan files.
 
     \item Caching and search optimization may be applied to improve response
     time for frequently requested information.
@@ -84,7 +85,7 @@ operations.
 \subsection{Availability and Reliability}
 
 The system shall remain reliable during normal operation and shall minimize
-service interruption.
+service interruptions.
 
 \begin{itemize}
     \item The platform shall provide high availability for core services
@@ -108,11 +109,11 @@ The architecture shall support future growth of the platform.
     \item The system shall be able to accommodate an increasing number of
     photographers, Film Labs, orders, digital images, and community activities.
 
-    \item Multiple Film Labs shall be able to operate simultaneously on the
-    same platform.
+    \item Multiple Film Labs shall be able to operate simultaneously on
+    the same platform.
 
-    \item Backend services shall be designed so that computing resources can
-    be increased when system traffic grows.
+    \item Backend services shall be designed so that computing resources
+    can be increased when system traffic grows.
 
     \item Cloud infrastructure shall support future expansion of storage,
     processing, and application services.
@@ -125,22 +126,24 @@ testing, maintenance, and future upgrades.
 
 \begin{itemize}
     \item Major components shall be separated into Mobile Application,
-    Web Portal, Backend Services, AI Services, Database, and Cloud Storage.
+    Web Portal, Backend Services, AI Services, Database, Search Engine,
+    and Cloud Storage.
 
-    \item Components shall communicate through well-defined APIs and data
-    interfaces.
+    \item Components shall communicate through well-defined APIs and
+    data interfaces.
 
-    \item Changes to one component should have minimal impact on unrelated
-    components.
+    \item Changes to one component shall have minimal impact on
+    unrelated components.
 
-    \item AI services and other external integrations should be replaceable
-    or upgradeable without redesigning the entire platform.
+    \item AI services and other external integrations shall be designed
+    so that they can be replaced or upgraded without requiring a complete
+    redesign of the platform.
 \end{itemize}
 
 \subsection{API and System Integration}
 
-The platform shall provide integration capabilities for internal and external
-services.
+The platform shall provide integration capabilities for internal and
+external services.
 
 \begin{itemize}
     \item RESTful APIs shall be used for communication between the mobile
@@ -149,8 +152,8 @@ services.
     \item APIs shall support integration with payment gateways, logistics
     providers, cloud storage services, and AI services.
 
-    \item Data exchanged through APIs shall follow consistent formats and
-    secure communication mechanisms.
+    \item Data exchanged through APIs shall follow consistent data formats
+    and secure communication mechanisms.
 
     \item The architecture shall allow additional photography-related
     services to be integrated in the future.
@@ -158,15 +161,15 @@ services.
 
 \subsection{Search and Data Access}
 
-The platform shall provide efficient access to Film Lab and photography-related
-information.
+The platform shall provide efficient access to Film Lab and
+photography-related information.
 
 \begin{itemize}
-    \item A search engine such as Elasticsearch or OpenSearch may be used for
-    Film Lab, service, marketplace, and knowledge searches.
+    \item A search engine such as Elasticsearch or OpenSearch may be used
+    for Film Lab, service, marketplace, and photography knowledge searches.
 
-    \item Search results should be relevant, fast, and filterable according
-    to available system attributes.
+    \item Search results should be relevant, responsive, and filterable
+    according to available system attributes.
 
     \item Authorized users shall be able to retrieve their own orders,
     digital scans, and related information efficiently.
@@ -174,13 +177,14 @@ information.
 
 \subsection{Deployment and Continuous Integration}
 
-The system shall support modern cloud deployment and development practices.
+The system shall support modern cloud deployment and software development
+practices.
 
 \begin{itemize}
     \item Microsoft Azure may be used as the main cloud deployment platform.
 
-    \item GitHub shall be used for source-code version control and team
-    collaboration.
+    \item GitHub shall be used for source-code version control and
+    team collaboration.
 
     \item GitHub Actions may be used to automate build, testing, and
     continuous integration and deployment (CI/CD) activities.
