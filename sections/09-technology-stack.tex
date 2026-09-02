@@ -1,1 +1,140 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3.2.e.10 TECHNOLOGY STACK
+% Responsible member: Như Quân
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section*{3.2.e.10 Technology Stack}
+\addcontentsline{toc}{section}{3.2.e.10 Technology Stack}
+
+This section summarizes the proposed technology stack for the
+AI-powered Film Photography Platform. The selected technologies
+support the development of the mobile application, web portal,
+backend services, database, cloud storage, artificial intelligence,
+search engine, deployment, and software development workflow.
+
+\begin{table}[htbp]
+\centering
+\caption{Proposed Technology Stack}
+\label{tab:technology-stack}
+\begin{tabular}{|p{3.2cm}|p{4.2cm}|p{7.0cm}|}
+\hline
+\textbf{Category} & \textbf{Technology} & \textbf{Role and Technical Justification} \\
+\hline
+
+Mobile Application &
+Flutter &
+Cross-platform framework for developing the mobile application
+for Android and iOS from a shared codebase. It supports the main
+photographer and community functions of the platform. \\
+\hline
+
+Web Portal &
+ReactJS / Next.js &
+Used to develop the web portal for Film Lab owners and
+administrators. It supports service management, order management,
+customer management, reports, and administration functions. \\
+\hline
+
+Backend Services &
+ASP.NET Core Web API / Node.js (Express) &
+Provides business logic, RESTful APIs, authentication,
+authorization, database communication, and integration with
+external services. \\
+\hline
+
+Database &
+PostgreSQL &
+Relational database for storing structured data such as users,
+Film Labs, services, orders, processing status, reviews,
+marketplace information, and community data. \\
+\hline
+
+Authentication &
+JWT / OAuth2 &
+Provides secure authentication and authorization. JWT can be used
+for authenticated API access, while OAuth2 can support external
+authentication and authorization flows. \\
+\hline
+
+Cloud Storage &
+Azure Blob Storage / Firebase Storage &
+Stores digital film scans and other media resources. Cloud storage
+supports secure access, backup, recovery, and scalability. \\
+\hline
+
+AI Integration &
+OpenAI GPT API &
+Provides conversational AI capabilities for the AI-powered
+Photography Assistant. \\
+\hline
+
+AI Framework &
+LangChain / Semantic Kernel &
+Supports the development and orchestration of AI-powered workflows
+and integration with external knowledge and services. \\
+\hline
+
+Knowledge Retrieval &
+Retrieval-Augmented Generation (RAG) &
+Allows the AI Assistant to retrieve relevant photography knowledge
+and provide domain-specific responses. \\
+\hline
+
+Recommendation &
+Recommendation System &
+Provides personalized recommendations for Film Labs, services,
+film types, and educational resources based on user preferences
+and available platform information. \\
+\hline
+
+Computer Vision &
+Computer Vision Models &
+Supports analysis of scanned film images and can be used for
+scan-quality evaluation. \\
+\hline
+
+Search Engine &
+Elasticsearch / OpenSearch &
+Provides efficient search for Film Labs, services, marketplace
+items, and photography-related knowledge and content. \\
+\hline
+
+Cloud Deployment &
+Microsoft Azure &
+Provides cloud infrastructure for deploying backend services,
+storage, databases, and other platform components while supporting
+scalability. \\
+\hline
+
+CI/CD &
+GitHub Actions &
+Automates software build, testing, and deployment workflows. \\
+\hline
+
+Version Control &
+GitHub &
+Provides source-code version control, collaboration, change
+tracking, and project repository management. \\
+\hline
+
+\end{tabular}
+\end{table}
+
+\subsection*{Technical Dependencies and Limitations}
+
+The mobile and web applications depend on the Backend API for
+business logic and data access. The backend depends on PostgreSQL
+for structured data storage and on cloud storage for digital film
+scans and other media files.
+
+AI features depend on external AI services and supporting
+technologies such as the OpenAI GPT API, LangChain or Semantic
+Kernel, RAG, recommendation algorithms, and computer vision
+models. Search-related functions depend on Elasticsearch or
+OpenSearch.
+
+The final choice between alternative technologies such as
+ASP.NET Core Web API and Node.js, ReactJS and Next.js, or
+Azure Blob Storage and Firebase Storage should be confirmed
+during implementation according to project requirements,
+team expertise, integration needs, and deployment constraints.
