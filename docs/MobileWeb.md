@@ -57,16 +57,90 @@ be used for the first version of the product.
 
 ## 2. Photographer Mobile Application
 
-The Flutter mobile application will include:
+The Photographer application is developed with Flutter so that the same main
+features can be provided on Android and iOS. Its purpose is to help a
+photographer find a Film Lab, create a processing order, follow its progress,
+and receive digital scans from one application.
 
-- Registration, login, and profile management.
-- Film Lab search, filtering, comparison, and recommendation.
-- Service booking and pickup requests.
-- Real-time order tracking.
-- Scan notification, preview, and download.
-- Digital Film Archive management.
-- Marketplace and community access.
-- AI Photography Assistant interaction.
+### Main screens
+
+| Screen group | Main functions |
+| --- | --- |
+| Authentication | Register, log in, reset password, and verify account |
+| Home | View current orders, nearby Film Labs, recommendations, and notifications |
+| Film Lab discovery | Search by location and filter by film format, service, price, rating, or processing time |
+| Film Lab details | View services, supported film formats, price list, opening hours, reviews, and estimated completion time |
+| Booking | Select service, enter roll information, choose pickup or drop-off, review cost, and confirm the order |
+| Orders | View order history and follow pickup, processing, scanning, and delivery status |
+| Scan delivery | Preview scan thumbnails, download files, and save images to the archive |
+| Digital Film Archive | Organize scans into albums and manage tags, favorites, metadata, and privacy |
+| Marketplace | Search equipment listings, view seller details, contact a seller, and follow transaction status |
+| Community | View posts, share photographs, comment, save content, and report inappropriate content |
+| AI Assistant | Ask questions about film stocks, exposure, camera settings, Film Labs, and processing services |
+| Profile | Update personal information, saved addresses, notification settings, and security settings |
+
+### Mobile navigation
+
+The application uses five bottom navigation destinations: `Home`, `Orders`,
+`Archive`, `Marketplace`, and `Profile`. Film Lab discovery starts from Home,
+while Community and AI Assistant are available as clear shortcuts. A detail
+screen is opened on top of the current destination so that the user can return
+without losing search filters or entered booking information.
+
+### Photographer booking flow
+
+```mermaid
+flowchart LR
+    A[Login] --> B[Home]
+    B --> C[Search Film Lab]
+    C --> D[Filter and compare]
+    D --> E[View Film Lab details]
+    E --> F[Select service]
+    F --> G[Enter film information]
+    G --> H[Choose pickup or drop-off]
+    H --> I[Review price]
+    I --> J[Confirm order]
+    J --> K[Track order status]
+    K --> L[Preview and download scans]
+    L --> M[Save to Digital Film Archive]
+```
+
+### Booking information
+
+Before confirming an order, the photographer provides:
+
+- Film format and film stock, for example 35 mm or 120 film.
+- Number of rolls and preferred processing service.
+- Scanning resolution and output format when scanning is selected.
+- Pickup address and available time, or the selected drop-off option.
+- Contact details and an optional note for the Film Lab.
+
+The application shows the service price, pickup fee, estimated completion time,
+and total amount before confirmation. Required information is validated on the
+current step so the user does not lose data by returning to an earlier step.
+
+### Order tracking
+
+Each order displays a timeline with these basic statuses:
+
+`Pending confirmation -> Pickup scheduled -> Received by Film Lab -> Processing -> Scanning -> Ready for delivery -> Completed`
+
+The user receives a notification when the Film Lab confirms the order, changes
+an important processing status, uploads scan files, or reports a problem. If an
+order is cancelled, the timeline displays who cancelled it and the reason.
+
+### Important interface states
+
+- When location permission is unavailable, the user can enter a district or
+  city manually to search for Film Labs.
+- When there is no search result, the application keeps the selected filters
+  visible and suggests removing one filter.
+- When a booking request fails, the entered information is preserved and a
+  retry action is displayed.
+- Scan downloads show progress and can be retried if the network connection is
+  interrupted.
+- Private archive items are not shared with Community or Marketplace unless the
+  photographer explicitly selects them.
 
 ## 3. Film Lab Web Portal
 
