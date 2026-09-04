@@ -144,13 +144,109 @@ order is cancelled, the timeline displays who cancelled it and the reason.
 
 ## 3. Film Lab Web Portal
 
-The Film Lab portal will include:
+The Film Lab portal is a React/Next.js web application for lab owners and
+employees. It provides a larger working area than the mobile application so
+that staff can review many orders, update processing stages, and upload scan
+files efficiently.
 
-- Lab profile, supported film formats, services, and pricing management.
-- Incoming order confirmation and processing schedule.
-- Processing workflow and order status updates.
-- Digital scan upload and customer delivery.
-- Customer, revenue, and activity reports.
+### User roles
+
+- **Lab owner:** manages the Film Lab profile, services, prices, employees, and
+  reports.
+- **Lab employee:** receives assigned orders, updates processing stages, and
+  uploads scan files.
+- Both roles only access data that belongs to their Film Lab. Sensitive actions,
+  such as changing prices or managing employees, require the owner role.
+
+### Main pages
+
+| Page | Main functions |
+| --- | --- |
+| Dashboard | Display new orders, delayed orders, daily workload, completed orders, and important notifications |
+| Orders | Search and filter orders by code, customer, date, service, employee, or processing status |
+| Order details | Review film information, selected services, customer notes, pickup details, price, and status history |
+| Processing board | Move orders through accepted, received, developing, scanning, quality checking, and completed stages |
+| Schedule | View pickup requests, expected processing dates, employee assignments, and deadlines |
+| Scan delivery | Upload scan files, check file information, preview thumbnails, and release files to the customer |
+| Services and pricing | Manage supported film formats, processing options, scan resolution, turnaround time, and price |
+| Customers | View customer contact information, order history, feedback, and service notes |
+| Reports | Summarize order quantity, revenue, popular services, completion time, and customer ratings |
+| Lab settings | Update profile, address, business hours, contact channels, pickup area, and employee permissions |
+
+### Order processing workflow
+
+```mermaid
+flowchart LR
+    A[New order] --> B{Lab review}
+    B -->|Accept| C[Waiting for film]
+    B -->|Reject with reason| X[Rejected]
+    C --> D[Film received]
+    D --> E[Developing]
+    E --> F[Scanning]
+    F --> G[Quality checking]
+    G -->|Pass| H[Scans uploaded]
+    G -->|Needs correction| F
+    H --> I[Completed]
+```
+
+Each status update records the employee, time, and optional note. The portal
+sends a notification to the photographer when the order is accepted, when the
+film is received, when an important delay occurs, and when scans are available.
+Invalid status jumps are disabled to protect the order history.
+
+### Scan upload and delivery
+
+1. The employee selects a processing order and chooses `Upload scans`.
+2. The portal checks the file type, file size, and number of images before
+   uploading.
+3. Upload progress is shown for each file. Failed files can be retried without
+   uploading successful files again.
+4. The employee previews thumbnails and enters optional information such as
+   resolution or scanner model.
+5. After quality checking, the employee publishes the scans. The photographer
+   receives a notification and can access them from the mobile application.
+
+The release action requires confirmation because customers can see published
+files immediately. Files that have not been published remain visible only to
+authorized Film Lab staff.
+
+### Interface behavior
+
+- The order list uses pagination, search, filters, and clear status labels so
+  that staff can handle a large number of orders.
+- The dashboard prioritizes work that needs attention instead of showing only
+  general statistics.
+- Forms warn users about unsaved changes. Validation messages appear next to
+  the related field and preserve valid input.
+- Destructive actions require confirmation and an explanation when the action
+  affects a customer order.
+- The portal supports desktop and tablet layouts. Tables scroll horizontally on
+  smaller screens without hiding primary order actions.
+
+### Suggested React/Next.js components
+
+```text
+film-lab-portal/
+|-- dashboard/
+|-- orders/
+|   |-- OrderTable
+|   |-- OrderDetails
+|   |-- ProcessingBoard
+|   `-- StatusHistory
+|-- schedule/
+|-- scan-delivery/
+|   |-- ScanUploader
+|   |-- UploadProgress
+|   `-- ScanPreview
+|-- services/
+|-- customers/
+|-- reports/
+`-- settings/
+```
+
+The components call shared service functions instead of sending requests
+directly. This keeps authentication, error handling, and API response mapping
+consistent across the portal.
 
 ## 4. Administration Web Portal
 
