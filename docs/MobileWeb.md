@@ -250,13 +250,115 @@ consistent across the portal.
 
 ## 4. Administration Web Portal
 
-The administration portal will include:
+The Administration Portal is a React/Next.js web application used to operate
+the platform and handle cases that cannot be completed automatically. It is
+separated from the Film Lab Portal because administrators can view platform
+data across different users and Film Labs.
 
-- User, role, and Film Lab approval management.
-- Service category and transaction fee management.
-- Payment and platform activity monitoring.
-- Review, community content, complaint, and dispute moderation.
-- Basic platform reports and audit information.
+### Administrator roles
+
+- **System administrator:** manages accounts, roles, configuration, service
+  categories, and platform access.
+- **Moderator:** reviews community content, marketplace reports, complaints,
+  reviews, and disputes.
+- **Finance staff:** monitors payments, fees, refunds, and transaction records.
+- **Support staff:** searches users and orders, reviews their history, and adds
+  internal support notes without changing system configuration.
+
+Each role receives only the permissions needed for its work. Important actions
+such as suspending an account, approving a Film Lab, issuing a refund, or
+changing a platform fee are recorded in the audit log.
+
+### Main administration pages
+
+| Page | Main functions |
+| --- | --- |
+| Dashboard | Show pending approvals, reported content, open disputes, payment warnings, user growth, and system activity |
+| Users and roles | Search accounts, view status and history, assign roles, suspend access, and restore eligible accounts |
+| Film Lab approval | Review business information, contact details, service capabilities, submitted documents, and approval history |
+| Service categories | Manage film formats, processing services, scan options, category visibility, and common attributes |
+| Fees and payments | Configure platform fees, search transactions, review failed payments, and follow refund status |
+| Content moderation | Review reported community posts, comments, reviews, and marketplace listings |
+| Complaints and disputes | Review evidence and communication, contact related parties, record a decision, and close the case |
+| Reports | View account, order, revenue, service, marketplace, moderation, and Film Lab performance summaries |
+| Audit log | Search administrative actions by actor, date, action type, and affected record |
+| System settings | Manage notification templates, public configuration, feature availability, and maintenance notices |
+
+### Film Lab approval flow
+
+```mermaid
+flowchart LR
+    A[Film Lab submits application] --> B[Pending review]
+    B --> C{Information complete?}
+    C -->|No| D[Request additional information]
+    D --> A
+    C -->|Yes| E[Verify business and services]
+    E --> F{Decision}
+    F -->|Approve| G[Activate Film Lab account]
+    F -->|Reject| H[Record reason and notify applicant]
+    G --> I[Write audit log]
+    H --> I
+```
+
+The decision screen shows the submitted information and previous review events
+in one place. An administrator must enter a reason when requesting more
+information or rejecting an application. The Film Lab receives a notification
+after every decision.
+
+### Moderation and dispute handling
+
+1. The portal places a new report in the moderation queue and assigns its
+   priority from the report category and number of reports.
+2. A moderator reviews the reported item, related account history, and attached
+   evidence.
+3. The moderator can dismiss the report, hide the content temporarily, request
+   more information, warn the user, or escalate the case.
+4. A final decision includes an internal note and a user-facing explanation.
+5. The system notifies the affected users and records the action in the audit
+   log.
+
+For payment or order disputes, the portal displays the order timeline, payment
+status, Film Lab updates, delivery events, messages, and uploaded evidence.
+Financial actions are available only to authorized staff.
+
+### Safety and audit requirements
+
+- Destructive or access-changing actions require a confirmation dialog that
+  clearly names the affected account, listing, order, or Film Lab.
+- Administrators cannot edit or remove audit records from the normal portal.
+- Tables support search, filters, sorting, pagination, and CSV export for
+  authorized reports.
+- Sensitive personal and payment information is hidden when the current role
+  does not need it.
+- The portal displays an empty state when no work is pending and a retry action
+  when administrative data cannot be loaded.
+- A session timeout warning appears before an inactive administrative session
+  is signed out.
+
+### Suggested React/Next.js components
+
+```text
+admin-portal/
+|-- dashboard/
+|-- users-and-roles/
+|-- film-lab-approval/
+|   |-- ApplicationQueue
+|   |-- ApplicationDetails
+|   `-- ApprovalHistory
+|-- payments-and-fees/
+|-- moderation/
+|   |-- ReportQueue
+|   |-- EvidenceViewer
+|   `-- DecisionForm
+|-- disputes/
+|-- reports/
+|-- audit-log/
+`-- system-settings/
+```
+
+Pages use shared table, filter, status label, confirmation, and error feedback
+components. Administrative permissions are checked by both the interface and
+the backend; hiding a button in the frontend is not treated as access control.
 
 ## 5. Marketplace UI
 
