@@ -362,18 +362,155 @@ the backend; hiding a button in the frontend is not treated as access control.
 
 ## 5. Marketplace UI
 
-- Create, edit, and remove equipment listings.
-- Search and filter cameras, lenses, film rolls, and accessories.
-- View seller information, ratings, and item details.
-- Support buyer-seller communication and transaction status tracking.
-- Report suspicious listings or transaction problems.
+The Marketplace allows community members to discover and exchange film
+photography equipment. It supports cameras, lenses, film rolls, accessories,
+and other related items. The interface provides enough information for users to
+evaluate an item while keeping communication and reporting inside the platform.
+
+### Main Marketplace screens
+
+| Screen | Main functions |
+| --- | --- |
+| Marketplace home | Show categories, recent listings, saved searches, recommended items, and shortcuts to sell an item |
+| Search results | Search by keyword and filter by category, brand, condition, location, price range, and listing date |
+| Listing details | Display photos, price, condition, description, location, seller rating, available delivery method, and report action |
+| Create listing | Upload photos and enter title, category, brand, model, condition, price, location, delivery method, and description |
+| Seller profile | Show seller information, rating summary, active listings, completed transactions, and joined date |
+| Messages | Support buyer-seller communication linked to a specific listing |
+| Saved items | Display favorite listings and notify the user when an item is updated or no longer available |
+| My listings | Manage draft, active, reserved, sold, hidden, rejected, and expired listings |
+| Transactions | Follow enquiry, agreement, payment, delivery, completion, cancellation, and dispute status |
+
+### Create listing flow
+
+```mermaid
+flowchart LR
+    A[Open Marketplace] --> B[Choose Sell an item]
+    B --> C[Select category]
+    C --> D[Upload item photos]
+    D --> E[Enter item information]
+    E --> F[Set price and delivery method]
+    F --> G[Preview listing]
+    G --> H{Submit}
+    H -->|Valid| I[Listing becomes active]
+    H -->|Needs review| J[Moderation queue]
+    H -->|Invalid| E
+```
+
+The preview screen shows the listing as a buyer will see it. Required fields
+are checked before submission, and uploaded photos remain available when the
+user returns to edit a field. A seller can save an incomplete listing as a
+draft.
+
+### Search and transaction behavior
+
+- Active filters are displayed above the result list and can be removed
+  individually without clearing the entire search.
+- Sold, reserved, expired, hidden, and removed listings have a visible text
+  status and cannot start a new transaction.
+- Messages display the related item summary so that users do not confuse
+  conversations from different listings.
+- Transaction history records important changes such as price agreement,
+  cancellation, delivery confirmation, and dispute creation.
+- Buyers and sellers can rate each other only after a completed transaction.
+
+### Trust, reporting, and interface states
+
+- A user can report a listing, message, or account and select a reason before
+  submission. The report is sent to the Admin Portal for review.
+- The interface warns users not to publish sensitive personal or payment
+  information in the public listing description.
+- Empty search results preserve the selected filters and suggest a less
+  restrictive search.
+- Failed image uploads show the affected image and a retry action instead of
+  clearing the complete form.
+- A removed listing displays a short explanation to its owner and links to the
+  relevant moderation or dispute record when available.
 
 ## 6. Digital Film Archive UI
 
-- Display scans by order, album, film stock, and shooting date.
-- Preview, download, organize, tag, and favorite photographs.
-- Show camera, lens, processing, and scanning metadata.
-- Provide clear storage, privacy, and access states.
+The Digital Film Archive stores the photographer's scan files after a Film Lab
+publishes them. It provides a visual library for finding, organizing, and
+downloading photographs without changing the original scan delivered by the
+Film Lab.
+
+### Main Archive screens
+
+| Screen | Main functions |
+| --- | --- |
+| Archive library | Display a grid or list of scans grouped by order, album, film stock, or shooting date |
+| Order scans | Show all files delivered for one processing order and the related Film Lab information |
+| Photo viewer | Preview an image, zoom, move between photos, download the file, and view metadata |
+| Albums | Create, rename, and remove albums and add or remove photographs |
+| Search and filters | Search tags or notes and filter by date, favorite status, camera, lens, film stock, Film Lab, or privacy |
+| Metadata editor | Add shooting date, camera, lens, location name, tags, favorite status, and personal notes |
+| Downloads | Select one or more files, choose an available resolution, and follow download progress |
+| Storage and privacy | View storage usage and control private or shared access for supported archive items |
+
+### Scan delivery to Archive flow
+
+```mermaid
+flowchart LR
+    A[Film Lab publishes scans] --> B[Photographer receives notification]
+    B --> C[Open order scans]
+    C --> D[Preview thumbnails]
+    D --> E{Choose action}
+    E -->|Download| F[Download original or available copy]
+    E -->|Organize| G[Add to album and tags]
+    E -->|Edit details| H[Add personal metadata]
+    G --> I[Archive library updated]
+    H --> I
+```
+
+### Archive organization and metadata
+
+The interface separates information supplied by the Film Lab from information
+entered by the photographer. Film Lab metadata can include order code, Film
+Lab, processing service, scanner model, resolution, output format, and delivery
+date. Photographer metadata can include camera, lens, shooting date, location
+name, album, tags, favorite status, and notes.
+
+The original delivered file is not overwritten when the photographer changes
+tags, albums, or notes. Removing a photograph from an album also does not delete
+the scan from the archive.
+
+### Privacy and interface states
+
+- New scan deliveries are private by default. Sharing requires a separate user
+  action and clearly displays what will become visible.
+- Download progress is shown for large files. Interrupted downloads can be
+  restarted without changing archive metadata.
+- A missing or unavailable file displays the order code and a contact action
+  for the related Film Lab instead of showing a blank viewer.
+- When the archive is empty, the screen links to Film Lab discovery and
+  explains that published scan files will appear after an order is processed.
+- Storage warnings identify large orders and completed downloads without
+  deleting files automatically.
+- Multi-select mode keeps the number of selected photographs visible and asks
+  for confirmation before a delete action.
+
+### Suggested shared components
+
+```text
+marketplace-and-archive/
+|-- marketplace/
+|   |-- ListingCard
+|   |-- ListingFilters
+|   |-- ListingForm
+|   |-- SellerSummary
+|   `-- TransactionTimeline
+|-- archive/
+|   |-- PhotoGrid
+|   |-- PhotoViewer
+|   |-- MetadataPanel
+|   |-- AlbumSelector
+|   `-- DownloadProgress
+`-- shared/
+    |-- SearchBar
+    |-- EmptyState
+    |-- StatusLabel
+    `-- ReportDialog
+```
 
 ## 7. Main UI Flows
 
