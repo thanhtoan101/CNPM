@@ -514,17 +514,50 @@ marketplace-and-archive/
 
 ## 7. Main UI Flows
 
-### Photographer Booking Flow
+The main flows connect the Photographer Mobile App with the Film Lab and Admin
+web portals. Each actor sees only the steps and actions related to their role.
 
-`Login -> Search Film Lab -> Compare Services -> Select Service -> Enter Film Details -> Choose Pickup -> Confirm Order -> Track Status`
+```mermaid
+flowchart TB
+    subgraph Mobile[Photographer Mobile App]
+        A[Search Film Lab] --> B[Create processing order]
+        B --> C[Track order]
+        C --> D[Receive scan notification]
+        D --> E[Preview and download scans]
+        E --> F[Organize Digital Film Archive]
+    end
 
-### Film Lab Processing Flow
+    subgraph Lab[Film Lab Web Portal]
+        G[Review incoming order] --> H[Accept order]
+        H --> I[Update processing stages]
+        I --> J[Upload and publish scans]
+    end
 
-`Login -> Review Incoming Order -> Confirm Order -> Update Processing Stages -> Upload Scans -> Complete Order`
+    subgraph Admin[Administration Web Portal]
+        K[Review Film Lab application]
+        L[Review reports and disputes]
+        M[Monitor platform activity]
+    end
 
-### Digital Delivery Flow
+    B --> G
+    H --> C
+    I --> C
+    J --> D
+    K --> G
+    C -. Report problem .-> L
+    G -. Activity data .-> M
+```
 
-`Processing Completed -> Customer Notification -> Preview Scans -> Download Files -> Save to Digital Film Archive`
+### Navigation summary
+
+- A photographer starts from Home and can move to Film Lab discovery, booking,
+  order tracking, scan delivery, and the Archive without entering a web portal.
+- Film Lab staff start from their dashboard and open the processing board or
+  order details to complete operational work.
+- Administrators start from queues that require attention, such as Film Lab
+  approvals, reports, disputes, or payment warnings.
+- Notifications deep-link to the related order, scan delivery, report, or
+  application so the user does not need to search for it again.
 
 ## 8. Frontend Component Architecture
 
@@ -589,19 +622,127 @@ layer. Screens must not store secrets or call backend endpoints directly.
 
 ## 9. Frontend Sequence Diagrams
 
-Sequence diagrams will be prepared for these main interactions:
+### Photographer creates a service order
 
-1. Photographer creates a service order.
-2. Film Lab updates the film processing status.
-3. Film Lab uploads scans and the photographer downloads them.
-4. Administrator reviews a reported marketplace listing.
+```mermaid
+sequenceDiagram
+    actor Photographer
+    participant App as Photographer App
+    participant API as Platform API
+    participant Lab as Film Lab Portal
 
-## 10. Planned Deliverables
+    Photographer->>App: Enter film and pickup information
+    App->>App: Validate required fields
+    App->>API: Submit processing order
+    API->>API: Calculate total and create order
+    API-->>Lab: Notify new incoming order
+    API-->>App: Return order code and pending status
+    App-->>Photographer: Show confirmation and order timeline
+```
 
-- Mobile and web screen list.
-- UI flow diagram.
-- Frontend component architecture diagram.
-- Frontend sequence diagrams.
-- Initial wireframes for the Photographer App, Film Lab Portal, Admin Portal,
-  Marketplace, and Digital Film Archive.
-- Presentation notes for the Mobile and Web section.
+### Film Lab updates processing status
+
+```mermaid
+sequenceDiagram
+    actor Employee as Film Lab Employee
+    participant Portal as Film Lab Portal
+    participant API as Platform API
+    participant App as Photographer App
+
+    Employee->>Portal: Select next processing status
+    Portal->>API: Submit status and optional note
+    API->>API: Validate transition and record history
+    alt Valid transition
+        API-->>Portal: Confirm saved status
+        API-->>App: Send order update notification
+    else Invalid transition
+        API-->>Portal: Return validation error
+        Portal-->>Employee: Keep current status and show error
+    end
+```
+
+### Film Lab publishes scans
+
+```mermaid
+sequenceDiagram
+    actor Employee as Film Lab Employee
+    participant Portal as Film Lab Portal
+    participant Storage as File Storage
+    participant API as Platform API
+    participant App as Photographer App
+
+    Employee->>Portal: Select scan files
+    Portal->>Storage: Upload files
+    Storage-->>Portal: Return upload results
+    Portal->>Portal: Preview files and quality check
+    Employee->>Portal: Publish scans
+    Portal->>API: Save scan metadata and delivery status
+    API-->>App: Notify scans are available
+    App->>API: Request order scan list
+    API-->>App: Return authorized file information
+    App-->>Employee: Order delivery status becomes completed
+```
+
+### Administrator reviews a reported listing
+
+```mermaid
+sequenceDiagram
+    actor Moderator
+    participant Admin as Administration Portal
+    participant API as Platform API
+    participant Market as Marketplace UI
+
+    Moderator->>Admin: Open report from moderation queue
+    Admin->>API: Request listing, report, and account history
+    API-->>Admin: Return moderation evidence
+    Moderator->>Admin: Select decision and enter explanation
+    Admin->>API: Submit moderation action
+    API->>API: Update listing and write audit log
+    API-->>Market: Apply listing status and notify affected user
+    API-->>Admin: Confirm case completion
+```
+
+## 10. Deliverables and Presentation Notes
+
+### Completed report deliverables
+
+- Mobile and web screen lists for the Photographer App, Film Lab Portal, Admin
+  Portal, Marketplace, and Digital Film Archive.
+- UI/UX guidelines for navigation, accessibility, feedback, responsive layout,
+  error handling, and platform-specific behavior.
+- Cross-platform UI flow and detailed feature flows.
+- Frontend component architecture, feature structure, and data flow.
+- Frontend sequence diagrams for ordering, processing, scan delivery, and
+  marketplace moderation.
+
+### Initial wireframes to prepare
+
+The first wireframe set should focus on the screens needed to explain the main
+business flow instead of drawing every supporting screen:
+
+1. Photographer Home and Film Lab search.
+2. Film Lab details and booking steps.
+3. Photographer order tracking and scan delivery.
+4. Film Lab dashboard, processing board, and scan upload.
+5. Admin dashboard and moderation details.
+6. Marketplace search, listing details, and create listing.
+7. Archive library and photo viewer.
+
+### Presentation notes
+
+1. Begin by explaining that Flutter is used for the Photographer mobile
+   application, while React/Next.js is used for staff and administration web
+   portals.
+2. Show the cross-platform UI flow to explain how an order moves from the
+   photographer to the Film Lab and returns as digital scans.
+3. Present one mobile screen group and one web portal example rather than
+   reading every item in the screen tables.
+4. Use the component architecture to explain that screens do not call backend
+   endpoints directly; feature state, domain models, and services separate the
+   responsibilities.
+5. Finish with the scan delivery sequence because it demonstrates interaction
+   between the Film Lab Portal, file storage, platform API, notifications, and
+   Photographer App.
+
+The recommended speaking time for this section is approximately four to five
+minutes, followed by questions about implementation technology or user flows.
