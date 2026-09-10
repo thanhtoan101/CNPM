@@ -1,0 +1,67 @@
+[
+  {
+    "id": "saigon-darkroom",
+    "name": "Saigon Darkroom",
+    "city": "Hồ Chí Minh",
+    "district": "Quận 1",
+    "formats": ["35mm", "120"],
+    "services": ["develop", "scan", "print"],
+    "base_price_vnd": 150000,
+    "turnaround_hours": 48,
+    "rating": 4.8,
+    "review_count": 326,
+    "is_synthetic": true
+  },
+  {
+    "id": "retrocam-lab",
+    "name": "RetroCam Lab",
+    "city": "Hồ Chí Minh",
+    "district": "Quận 3",
+    "formats": ["35mm", "120"],
+    "services": ["develop", "scan", "print", "high_res_scan"],
+    "base_price_vnd": 180000,
+    "turnaround_hours": 24,
+    "rating": 4.6,
+    "review_count": 241,
+    "is_synthetic": true
+  },
+  {
+    "id": "silver-grain",
+    "name": "Silver Grain Lab",
+    "city": "Hồ Chí Minh",
+    "district": "Thủ Đức",
+    "formats": ["35mm", "120"],
+    "services": ["develop", "scan", "black_and_white_push"],
+    "base_price_vnd": 140000,
+    "turnaround_hours": 96,
+    "rating": 4.9,
+    "review_count": 188,
+    "is_synthetic": true
+  },
+  {
+    "id": "hanoi-film-lab",
+    "name": "Hanoi Film Lab",
+    "city": "Hà Nội",
+    "district": "Hoàn Kiếm",
+    "formats": ["35mm", "120", "sheet_4x5"],
+    "services": ["develop", "scan", "high_res_scan"],
+    "base_price_vnd": 130000,
+    "turnaround_hours": 72,
+    "rating": 4.7,
+    "review_count": 279,
+    "is_synthetic": true
+  },
+  {
+    "id": "danang-analog",
+    "name": "Đà Nẵng Analog",
+    "city": "Đà Nẵng",
+    "district": "Hải Châu",
+    "formats": ["35mm"],
+    "services": ["develop", "scan"],
+    "base_price_vnd": 110000,
+    "turnaround_hours": 48,
+    "rating": 4.5,
+    "review_count": 134,
+    "is_synthetic": true
+  }
+]
