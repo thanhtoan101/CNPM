@@ -21,7 +21,9 @@ without changing the main screen structure.
 
 ```powershell
 cd apps\web
-npm install
+npm ci
+npm test
+npm run build
 npm run dev
 ```
 
@@ -34,9 +36,22 @@ Install the Flutter SDK and verify it with `flutter doctor`, then run:
 
 ```powershell
 cd apps\mobile
+flutter create --platforms=android,web --project-name=film_photography_mobile .
 flutter pub get
-flutter run
+flutter analyze
+flutter test
+flutter run -d chrome
 ```
+
+The repository contains the Flutter application sources; the `flutter create`
+step generates the missing platform runners. Keep the existing `lib/`, `test/`
+and `pubspec.yaml` when generating runners. Flutter has not been run on the
+submission machine because the SDK is unavailable; record actual results when
+running these commands. Booking is explicitly a local price preview.
+
+The web portal persists demonstration state in browser localStorage. It does
+not upload scan bytes or authenticate the selected portal role. See
+`../docs/Verification.md` for tested behavior and integration limits.
 
 The generated photograph in each application's asset directory is used only
 as local demonstration media. No API keys or passwords are stored in either

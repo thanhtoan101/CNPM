@@ -242,7 +242,8 @@ class _LabDetailsState extends State<_LabDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final total = widget.lab.price * _rolls;
+    final supplement = _service == 'Develop + TIFF Scan' ? 135000 : _service == 'Develop + JPEG Scan' ? 60000 : 0;
+    final total = (widget.lab.price + supplement) * _rolls;
     return SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(18, 0, 18, 22),
@@ -267,13 +268,13 @@ class _LabDetailsState extends State<_LabDetails> {
                 const Expanded(child: Text('Number of rolls', style: TextStyle(fontWeight: FontWeight.w700))),
                 IconButton.outlined(onPressed: _rolls > 1 ? () => setState(() => _rolls--) : null, icon: const Icon(Icons.remove_rounded)),
                 SizedBox(width: 38, child: Text('$_rolls', textAlign: TextAlign.center, style: const TextStyle(fontWeight: FontWeight.w800))),
-                IconButton.filled(onPressed: () => setState(() => _rolls++), icon: const Icon(Icons.add_rounded)),
+                IconButton.filled(onPressed: _rolls < 100 ? () => setState(() => _rolls++) : null, icon: const Icon(Icons.add_rounded)),
               ],
             ),
             const Divider(height: 28),
-            Row(children: [const Text('Estimated total'), const Spacer(), Text(formatVnd(total), style: const TextStyle(fontSize: 16, color: AppTheme.teal, fontWeight: FontWeight.w900))]),
+            Row(children: [const Text('Demo estimate (VND)'), const Spacer(), Text(formatVnd(total), style: const TextStyle(fontSize: 16, color: AppTheme.teal, fontWeight: FontWeight.w900))]),
             const SizedBox(height: 16),
-            SizedBox(width: double.infinity, child: FilledButton.icon(onPressed: () => _confirmBooking(context), icon: const Icon(Icons.calendar_month_rounded), label: const Text('Book service'))),
+            SizedBox(width: double.infinity, child: FilledButton.icon(onPressed: () => _confirmBooking(context), icon: const Icon(Icons.calendar_month_rounded), label: const Text('Preview booking'))),
           ],
         ),
       ),
@@ -282,7 +283,7 @@ class _LabDetailsState extends State<_LabDetails> {
 
   void _confirmBooking(BuildContext context) {
     Navigator.pop(context);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Booking draft created for ${widget.lab.name}.')));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Demo preview: $_rolls roll(s), $_service at ${widget.lab.name}. No order was sent.')));
   }
 }
 
@@ -349,7 +350,7 @@ class _AssistantSheetState extends State<_AssistantSheet> {
         children: [
           Text('AI Photography Assistant', style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 8),
-          const Text('Ask about film stock, exposure, scanning, or Film Lab services.'),
+          const Text('Demo answers only; no AI API is connected. Ask about film stock, exposure or scanning.'),
           const SizedBox(height: 14),
           TextField(
             controller: _controller,
