@@ -10,12 +10,10 @@ dist/
 .env
 .DS_Store
 node_modules/
-dist/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
-build/
 coverage/
 output/
 tmp/
