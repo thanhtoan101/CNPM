@@ -28,3 +28,14 @@ The project aims to build a digital ecosystem photographers, Film Labs, photogra
 - OpenAI GPT API
 - Retrieval-Augmented Generation
 - Elasticsearch or OpenSearch.
+
+## Frontend Prototypes
+
+Nguyen Dao Quoc Khanh's Mobile and Web implementation is available under
+[`apps/`](apps/README.md):
+
+- Flutter Photographer App in `apps/mobile/`
+- React and TypeScript Film Lab and Administration Portal in `apps/web/`
+
+The prototypes use local demonstration data until the shared Backend API is
+available. See `apps/README.md` for run commands.
