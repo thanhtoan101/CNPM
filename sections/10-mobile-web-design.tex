@@ -1,0 +1,258 @@
+% ============================================================
+% MOBILE AND WEB DESIGN
+% Responsible member: Nguyen Dao Quoc Khanh
+% ============================================================
+
+\section{Mobile and Web Design}
+
+This section presents the proposed user interfaces for the Photographer Mobile
+Application, Film Lab Web Portal, Administration Web Portal, Marketplace, and
+Digital Film Archive. Flutter is proposed for the mobile application, while
+ReactJS or Next.js is proposed for the web portals.
+
+\subsection{UI/UX Guidelines}
+
+The interfaces follow these common guidelines:
+
+\begin{itemize}
+    \item The mobile application uses simple bottom navigation for Home,
+    Orders, Archive, Marketplace, and Profile.
+    \item The Film Lab and Administration portals use a consistent sidebar,
+    page header, searchable tables, filters, and pagination.
+    \item Each screen has one clear primary action, such as booking a service,
+    updating an order status, or uploading scan files.
+    \item Order states use both color and text labels. Important examples are
+    Pending, Processing, Scanning, Ready for Delivery, and Completed.
+    \item Forms show visible labels and short validation messages without
+    removing valid information entered by the user.
+    \item Loading, empty, success, confirmation, and error states are provided
+    for important actions.
+    \item Destructive actions and actions that affect another user require a
+    confirmation step.
+    \item Mobile and web layouts remain readable on their supported screen
+    sizes and provide keyboard focus for web controls.
+\end{itemize}
+
+\subsection{Photographer Mobile Application}
+
+The Photographer Application is developed with Flutter for Android and iOS.
+It allows photographers to find a Film Lab, create processing orders, track
+their film, receive scan files, use the Marketplace, and manage a personal
+Digital Film Archive.
+
+\begin{table}[htbp]
+\centering
+\small
+\renewcommand{\arraystretch}{1.1}
+\caption{Main Photographer Mobile Application Screens}
+\label{tab:photographer-mobile-screens}
+\begin{tabular}{|p{3.4cm}|p{9.2cm}|}
+\hline
+\textbf{Screen Group} & \textbf{Main Functions} \\
+\hline
+Authentication & Register, log in, reset password, and verify an account. \\
+\hline
+Home & Show current orders, nearby Film Labs, recommendations, and
+notifications. \\
+\hline
+Film Lab Discovery & Search and filter by location, film format, service,
+price, rating, and processing time. \\
+\hline
+Booking & Select a service, enter film information, choose pickup or drop-off,
+review the cost, and confirm the order. \\
+\hline
+Orders & Display order history and the processing status timeline. \\
+\hline
+Scan Delivery & Preview thumbnails, download scan files, and save photographs
+to the archive. \\
+\hline
+Marketplace and Community & View listings and community content, contact
+sellers, and report inappropriate content. \\
+\hline
+AI Assistant & Ask questions about film stocks, exposure, camera settings,
+Film Labs, and processing services. \\
+\hline
+Profile & Update personal details, saved addresses, notifications, and account
+settings. \\
+\hline
+\end{tabular}
+\end{table}
+
+The main booking flow is:
+
+\begin{center}
+\texttt{Login $\rightarrow$ Search Film Lab $\rightarrow$ Compare Services
+$\rightarrow$ Enter Film Details $\rightarrow$ Choose Pickup
+$\rightarrow$ Confirm Order $\rightarrow$ Track Status}
+\end{center}
+
+Before confirmation, the application displays the service price, pickup fee,
+estimated completion time, and total amount. If location permission is not
+available, the photographer can manually enter a district or city.
+
+\subsection{Film Lab Web Portal}
+
+The Film Lab Web Portal gives owners and employees a larger workspace for
+handling orders and scan files. A Lab owner can manage the Film Lab profile,
+services, prices, employees, and reports. A Lab employee can process assigned
+orders and upload scan files.
+
+The main pages are Dashboard, Orders, Order Details, Processing Board,
+Schedule, Scan Delivery, Services and Pricing, Customers, Reports, and Lab
+Settings. The processing workflow is:
+
+\begin{center}
+\texttt{New Order $\rightarrow$ Accepted $\rightarrow$ Film Received
+$\rightarrow$ Developing $\rightarrow$ Scanning $\rightarrow$
+Quality Checking $\rightarrow$ Scans Published $\rightarrow$ Completed}
+\end{center}
+
+Every status update records the employee, update time, and an optional note.
+Invalid status jumps are disabled. During scan delivery, the portal validates
+file type and size, displays upload progress, supports retry, and requires a
+final confirmation before publishing files to the photographer.
+
+\subsection{Administration Web Portal}
+
+The Administration Portal supports system administrators, moderators, finance
+staff, and support staff. Role-based permissions limit each user to the data
+and actions required for their work.
+
+The portal provides the following main functions:
+
+\begin{itemize}
+    \item manage users, roles, account status, and Film Lab applications;
+    \item manage service categories, platform fees, and public settings;
+    \item monitor payments, failed transactions, refunds, and activity;
+    \item review community content, marketplace listings, complaints, and
+    disputes;
+    \item view reports and search the administrative audit log.
+\end{itemize}
+
+For Film Lab approval, an administrator checks the submitted business and
+service information, requests missing information when necessary, and records
+an approval or rejection reason. Important access, moderation, payment, and
+configuration actions are written to the audit log.
+
+\subsection{Marketplace Interface}
+
+The Marketplace supports cameras, lenses, film rolls, accessories, and other
+film photography equipment. Users can search by keyword and filter by category,
+brand, condition, location, price, and listing date.
+
+The main screens are Marketplace Home, Search Results, Listing Details, Create
+Listing, Seller Profile, Messages, Saved Items, My Listings, and Transactions.
+A seller creates a listing using the following flow:
+
+\begin{center}
+\texttt{Select Category $\rightarrow$ Upload Photos $\rightarrow$
+Enter Item Details $\rightarrow$ Set Price and Delivery
+$\rightarrow$ Preview $\rightarrow$ Submit}
+\end{center}
+
+The interface clearly marks Draft, Active, Reserved, Sold, Hidden, Rejected,
+and Expired listings. Users can report suspicious listings, messages, or
+accounts, and the report is sent to the Administration Portal.
+
+\subsection{Digital Film Archive Interface}
+
+The Digital Film Archive stores scan files published by Film Labs and helps the
+photographer organize them by order, album, film stock, shooting date, tags,
+and favorite status.
+
+The archive includes a library, order scan view, photo viewer, album manager,
+search and filters, metadata editor, downloads, and storage and privacy
+settings. Film Lab metadata, such as order code, scanner, resolution, and
+delivery date, is separated from personal metadata entered by the photographer.
+Changing an album, tag, or note does not overwrite the original delivered file.
+
+New scan deliveries are private by default. Sharing requires a separate user
+action. Large downloads show progress and can be retried if the network is
+interrupted.
+
+\subsection{Frontend Component Architecture}
+
+The Flutter application and ReactJS or Next.js portals use the same separation
+of responsibilities.
+
+\begin{table}[htbp]
+\centering
+\small
+\renewcommand{\arraystretch}{1.1}
+\caption{Frontend Architecture Layers}
+\label{tab:frontend-architecture-layers}
+\begin{tabular}{|p{3.2cm}|p{9.4cm}|}
+\hline
+\textbf{Layer} & \textbf{Responsibility} \\
+\hline
+Presentation & Screens, pages, layouts, forms, tables, dialogs, and reusable
+interface components. \\
+\hline
+State and Feature & Authentication, order, marketplace, archive, profile, and
+notification state. \\
+\hline
+Domain & Shared models and application rules for users, Film Labs, services,
+orders, scans, and listings. \\
+\hline
+API and Service & REST API communication, file upload and download, and
+real-time updates. \\
+\hline
+Shared & Theme, routing, form validation, error mapping, localization, and
+common utilities. \\
+\hline
+\end{tabular}
+\end{table}
+
+A user action starts in the presentation layer. The feature state validates the
+input and calls the relevant service. The service communicates with the backend
+or file storage and returns a shared model. Finally, the state is updated and
+the interface shows the result. Screens do not store secrets or call backend
+endpoints directly.
+
+\subsection{Main Cross-Platform UI Flow}
+
+The main interaction between the mobile and web interfaces is summarized as
+follows:
+
+\begin{enumerate}
+    \item The photographer searches for a Film Lab and creates an order in the
+    mobile application.
+    \item Film Lab staff review the order and update its processing stages in
+    the web portal.
+    \item Status notifications are displayed in the Photographer Application.
+    \item The Film Lab uploads and publishes scan files after quality checking.
+    \item The photographer previews, downloads, and organizes the scans in the
+    Digital Film Archive.
+    \item Reports or disputes are transferred to the Administration Portal for
+    review.
+\end{enumerate}
+
+\subsection{Frontend Sequence Summaries}
+
+Four frontend sequence diagrams are planned for implementation and
+presentation:
+
+\begin{enumerate}
+    \item \textbf{Create service order:} the Photographer App validates the
+    booking, sends it to the Platform API, and displays the returned order code.
+    \item \textbf{Update processing status:} the Film Lab Portal sends the next
+    status to the API, which records the history and notifies the photographer.
+    \item \textbf{Publish scans:} the Film Lab Portal uploads files to storage,
+    saves metadata through the API, and makes the files available in the mobile
+    application.
+    \item \textbf{Moderate a listing:} the Administration Portal retrieves the
+    report and evidence, records the decision, updates the Marketplace, and
+    writes an audit event.
+\end{enumerate}
+
+\subsection{Initial Wireframes and Presentation Plan}
+
+The first wireframes should show Photographer Home, Film Lab Search, Film Lab
+Details, Booking, Order Tracking, Scan Delivery, Film Lab Dashboard, Processing
+Board, Scan Upload, Admin Moderation, Marketplace Search, Listing Details,
+Archive Library, and Photo Viewer.
+
+During the presentation, the UI flow should be introduced first, followed by
+one mobile example, one web portal example, the component architecture, and the
+scan delivery sequence. The recommended speaking time for this section is four
+to five minutes.
