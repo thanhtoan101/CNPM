@@ -1,0 +1,85 @@
+\section{Verification Snapshot}
+The submission snapshot was checked on Windows using Node.js 24.19 and the
+bundled Python environment on 17 September 2026. The web production build and
+TypeScript compilation succeeded. The automated suites passed 41 AI tests,
+9 web-domain tests, and 11 backend authorization/validation tests. Backend tests
+use an isolated database stub; no live PostgreSQL or cloud deployment is claimed.
+
+\begin{longtable}{p{0.20\textwidth}p{0.43\textwidth}p{0.27\textwidth}}
+\toprule\textbf{Area} & \textbf{Verification evidence} & \textbf{Result / limitation}\\\midrule\endhead
+AI & Recommendation constraints, retrieval, refusal on insufficient evidence, scan quality and HTTP contracts & 41 tests passed; local and synthetic datasets.\\
+Web domain & Order transitions, service validation, scan boundaries, publication, approval/moderation, CSV safety and saved-state round trip & 9 tests passed.\\
+Business API & Shared JWT key, malformed/expired/forged tokens, role checks, private order listing, safe login and server-derived order prices & 11 tests passed; database stub.\\
+React build & TypeScript and Vite production output & Passed.\\
+Mobile & Source and navigation/widget test inspected; booking estimate and demo wording corrected & Flutter SDK unavailable locally; device build not verified.\\
+Report & LaTeX sources consolidated and compiled using Tectonic & PDF generated; visual review required for release.\\
+\bottomrule
+\end{longtable}
+
+\section{Requirement-to-Code Examples}
+\begin{description}[style=nextline]
+\item[US-03 / SCRUM-29: inspect an order] A lab operator can search by order,
+customer or service and filter by status. \path{apps/web/src/App.tsx} contains
+the order table, selection and detail view. Keyboard Enter selects a row.
+\item[US-04: advance a workflow] \path{apps/web/src/domain.ts} permits only
+the next stage. Completed orders cannot advance, and scan orders at quality
+check require reviewed publication before completion.
+\item[US-05: deliver scans] JPEG/TIFF extension and MIME checks, positive size,
+50 MB per-file limit, duplicate filenames and a 100-file limit are enforced.
+The demo saves private metadata after quality and release confirmation;
+actual file bytes remain on the device.
+\item[US-08 and US-09 / SCRUM-30: administration] Incomplete lab applications
+cannot be approved. Rejections and moderation decisions require reasons.
+Repeated final decisions are rejected and local audit entries record changes.
+Browser audit data is not tamper-proof server evidence.
+\item[Security boundary] The Express API shares one configured signing and
+verification secret, restricts user/schema inspection to administrators, and
+filters non-admin orders by owner. Order totals come from the service catalogue.
+\end{description}
+
+\section{Workflow and Sequence Diagrams}
+The diagrams below distinguish implemented local interactions from the target
+integration design. The complete story/rule matrix and manual checklist are in
+\path{docs/AcceptanceTraceability.md} and \path{docs/SubmissionChecklist.md}.
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[node distance=6mm, box/.style={draw,rounded corners,fill=teal!6,text width=11cm,align=center,minimum height=8mm,font=\small}, >=Stealth]
+\node[box] (a) {New order: inspect customer, service and quantity};
+\node[box,below=of a] (b) {Film received $\rightarrow$ Developing $\rightarrow$ Scanning};
+\node[box,below=of b] (c) {Quality check: select valid JPEG/TIFF files};
+\node[box,below=of c] (d) {Confirm quality review and release for the selected order};
+\node[box,below=of d] (e) {Save private metadata + complete order + append local audit event};
+\draw[->] (a)--(b);\draw[->] (b)--(c);\draw[->] (c)--(d);\draw[->] (d)--(e);
+\end{tikzpicture}
+\caption{Implemented local web workflow; no cloud upload or customer message is sent}
+\end{figure}
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,font=\small]
+\node[draw,fill=teal!6,minimum width=2.8cm] at (0,0) {Browser form};
+\node[draw,fill=teal!6,minimum width=2.8cm] at (5,0) {Domain rules};
+\node[draw,fill=teal!6,minimum width=2.8cm] at (10,0) {Browser storage};
+\foreach \x in {0,5,10}{\draw[dashed,gray] (\x,-0.3)--(\x,-4.7);}
+\draw[->] (0,-0.9)--node[above]{Submit service / scan decision}(5,-0.9);
+\draw[->] (5,-1.6)--node[above]{Validate; compute next state}(10,-1.6);
+\draw[->,dashed] (10,-2.3)--node[above]{Saved JSON or storage error}(5,-2.3);
+\draw[->,dashed] (5,-3.0)--node[above]{Update UI only on successful save}(0,-3.0);
+\draw[->] (0,-3.8)--node[above]{Reload: read and validate snapshot}(10,-3.8);
+\end{tikzpicture}
+\caption{Implemented state persistence, validation and error handling in the web demo}
+\end{figure}
+
+\clearpage
+\section{Known Limits and Demonstration Talking Points}
+The assessed implementation is a documented prototype with executable local
+interactions and testable backend/AI modules. It is not a completed production
+marketplace. Shared frontend authentication, live database migration verification,
+cross-device synchronization, cloud scan storage, payment/logistics adapters,
+mobile device testing and deployment remain explicit integration tasks.
+
+For a five-minute demonstration: introduce the problem and actors; show order
+search and a valid status transition; demonstrate a service edit that survives
+reload; show scan validation and private publication metadata; demonstrate an
+admin decision and its audit event; finish with the test summary and the
+requirement-to-code matrix. Explain that local role switching is a demonstration
+control and that backend authorization must independently enforce permissions.

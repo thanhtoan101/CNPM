@@ -715,18 +715,29 @@ sequenceDiagram
 - Frontend sequence diagrams for ordering, processing, scan delivery, and
   marketplace moderation.
 
-### Initial wireframes to prepare
+### Screen prototypes and wireframe coverage
 
-The first wireframe set should focus on the screens needed to explain the main
-business flow instead of drawing every supporting screen:
+The repository now includes coded screen prototypes that can be used to explain
+the intended layout and navigation. They use demonstration data and represent
+the following design surfaces; a separate low-fidelity wireframe asset set is
+not included or claimed as completed.
 
-1. Photographer Home and Film Lab search.
-2. Film Lab details and booking steps.
-3. Photographer order tracking and scan delivery.
-4. Film Lab dashboard, processing board, and scan upload.
-5. Admin dashboard and moderation details.
-6. Marketplace search, listing details, and create listing.
-7. Archive library and photo viewer.
+| Design surface | Existing prototype source | Scope of evidence |
+| --- | --- | --- |
+| Photographer Home and Film Lab search | `apps/mobile/lib/screens/home_screen.dart` | Home layout, search/filter controls, and Film Lab cards |
+| Film Lab details and booking | `apps/mobile/lib/screens/home_screen.dart` | Lab detail sheet, service/roll controls, and booking preview |
+| Photographer order tracking | `apps/mobile/lib/screens/orders_screen.dart` | Order groups, detail sheet, and sample timeline |
+| Film Lab dashboard, processing board, scan delivery | `apps/web/src/App.tsx` | Staff layouts and local prototype interactions |
+| Admin dashboard, Lab approvals, moderation | `apps/web/src/App.tsx` | Administrative queues and available review interactions |
+| Marketplace list and listing details | `apps/mobile/lib/screens/marketplace_screen.dart`, `apps/web/src/App.tsx` | Listing cards; mobile detail/draft form and category selection |
+| Archive library and album preview | `apps/mobile/lib/screens/archive_screen.dart`, `apps/web/src/App.tsx` | Archive layout and mobile album preview; full photo editing/download is not implied |
+
+Run the prototypes using [apps/README.md](../apps/README.md). The distinction
+between proposed behavior, local prototype interactions, and verified
+integration is recorded in [AcceptanceTraceability.md](AcceptanceTraceability.md).
+The reproducible demo and submission checks are in
+[SubmissionChecklist.md](SubmissionChecklist.md). Screenshots or runtime test
+results should be linked only after they have actually been captured or run.
 
 ### Presentation notes
 
