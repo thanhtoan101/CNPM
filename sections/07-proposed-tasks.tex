@@ -1,78 +1,165 @@
 % ==========================================
-% 3.7 PROPOSED TASKS
-% Responsible member: Toan
+% 3.2.g CÁC NHIỆM VỤ ĐỀ XUẤT
 % ==========================================
 
-\section{Proposed Tasks}
+\section*{3.2.g Các nhiệm vụ đề xuất}
+\addcontentsline{toc}{section}{3.2.g Các nhiệm vụ đề xuất}
 
-The proposed tasks define the major activities required to design, develop, test, and deploy the AI-powered platform connecting film photography enthusiasts with Film Processing Labs.
+To distribute the workload fairly, the project is organized into five
+comparable work packages. Each member owns the analysis and design activities,
+implementation or research, testing, and documentation associated with the
+assigned package. The planned team capacity is allocated at approximately
+20\% per member and will be monitored through sprint backlog items and story
+points.
 
-\subsection{Task 1: Requirement Analysis and System Design}
+\subsection*{Gói công việc 1: Bối cảnh, giải pháp và yêu cầu nghiệp vụ}
 
-\begin{itemize}
-    \item Analyze stakeholder requirements and user needs.
-    \item Identify system actors and major business processes.
-    \item Define functional and non-functional requirements.
-    \item Design the overall system architecture.
-    \item Design database structure and core data models.
-    \item Define APIs and communication between system components.
-\end{itemize}
-
-\subsection{Task 2: Mobile Application Development}
+\textbf{Người phụ trách: Nguyễn Thái Gia Bảo}
 
 \begin{itemize}
-    \item Develop the cross-platform mobile application using Flutter.
-    \item Implement user registration and authentication.
-    \item Develop Film Lab search and discovery functions.
-    \item Implement service booking and order management.
-    \item Develop real-time order tracking.
-    \item Implement Digital Film Archive functions.
-    \item Integrate marketplace and community features.
+	\item Analyze the project context, current problems, stakeholder needs, and
+	the proposed value of the unified film-photography ecosystem.
+	\item Define system actors, functional requirements, business rules, shared
+	terminology, acceptance criteria, and the six core business flows.
+	\item Prepare user stories and trace them to the relevant actors, use cases,
+	and business processes.
+	\item Produce the Use Case, Business Flow, and Activity diagrams and document
+	the assumptions and boundaries used by the remaining work packages.
 \end{itemize}
 
-\subsection{Task 3: Web Portal Development}
+The expected outputs are the context and problem analysis, proposed solution,
+actor catalogue, requirements baseline, business rules, user stories, Use Case
+Diagram, and six documented Business Flows.
+
+\subsection*{Gói công việc 2: Yêu cầu phi chức năng, cơ sở dữ liệu và kiến trúc}
+
+\textbf{Người phụ trách: Lê Thị Như Quân}
 
 \begin{itemize}
-    \item Develop the Film Lab Management Portal.
-    \item Implement service and pricing management.
-    \item Develop order and processing workflow management.
-    \item Implement digital scan upload and delivery.
-    \item Develop reporting and business analytics functions.
-    \item Develop the Administration System for platform management.
+	\item Define measurable non-functional requirements for security,
+	performance, availability, scalability, data consistency, maintainability,
+	backup, and recovery.
+	\item Select and justify the technology stack and design the modular,
+	multi-tenant system architecture and storage architecture.
+	\item Design the PostgreSQL schema, entity relationships, constraints,
+	indexes, data-isolation rules, models, and migration or SQL scripts.
+	\item Produce the System Architecture, Entity--Relationship, Database
+	Architecture, and Storage Architecture diagrams and verify their consistency.
 \end{itemize}
 
-\subsection{Task 4: AI Research and Implementation}
+The expected outputs are the non-functional requirements, technology rationale,
+system and storage architecture, ERD, database schema, models, migrations or SQL
+scripts, and supporting architecture documentation.
+
+\subsection*{Gói công việc 3: Hệ thống phía máy chủ và API}
+
+\textbf{Người phụ trách: Huỳnh Gia Hợp}
 
 \begin{itemize}
-    \item Research recommendation algorithms for Film Lab matching.
-    \item Investigate Computer Vision techniques for image quality analysis.
-    \item Research semantic search technologies.
-    \item Develop a Retrieval-Augmented Generation pipeline.
-    \item Integrate a Large Language Model for the AI Photography Assistant.
-    \item Evaluate AI model performance and recommendation quality.
+	\item Define RESTful API contracts and implement the backend with ASP.NET Core
+	or Node.js, including validation, error handling, logging, and persistence.
+	\item Implement JWT/OAuth2 authentication, Role-Based Access Control, user
+	and authorization flows, and tenant-aware business services.
+	\item Implement order and Film Lab management, processing lifecycle, payment,
+	digital delivery, archive metadata, and required integration contracts.
+	\item Produce the API Architecture, Sequence, and API Flow diagrams together
+	with API documentation, unit tests, and backend integration tests.
 \end{itemize}
 
-\subsection{Task 5: System Integration and Testing}
+The expected outputs are the backend services, documented REST API, authentication
+and authorization, core business logic, payment/order/Lab management, API
+diagrams, and backend test evidence.
+
+\subsection*{Gói công việc 4: Ứng dụng di động và cổng thông tin web}
+
+\textbf{Người phụ trách: Nguyễn Đào Quốc Khánh}
 
 \begin{itemize}
-    \item Integrate mobile, web, backend, AI, database, and cloud services.
-    \item Conduct unit testing and integration testing.
-    \item Test major business workflows.
-    \item Evaluate system performance and reliability.
-    \item Conduct security testing and access control validation.
+	\item Design the UI/UX and implement the Flutter photographer application and
+	responsive ReactJS or Next.js web portals.
+	\item Implement the Photographer App flows, Film Lab management portal,
+	System Administrator portal, Marketplace UI, and Digital Archive UI.
+	\item Integrate screens with the documented backend APIs and handle loading,
+	empty, validation, authorization, offline, and error states consistently.
+	\item Produce the UI Flow, Component/Frontend Architecture, and relevant
+	Sequence diagrams; perform usability and frontend integration tests.
 \end{itemize}
 
-\subsection{Task 6: Deployment and Documentation}
+The expected outputs are the Flutter application, ReactJS/Next.js web portals,
+reusable UI components, responsive interfaces, UI and frontend diagrams, API
+integrations, user-flow documentation, and frontend test evidence.
+
+\subsection*{Gói công việc 5: AI, kiểm thử và triển khai}
+
+\textbf{Người phụ trách: Nguyễn Thành Toàn}
 
 \begin{itemize}
-    \item Deploy backend services and databases to the cloud.
-    \item Configure cloud storage for digital film scans.
-    \item Configure CI/CD pipelines using GitHub Actions.
-    \item Prepare technical documentation.
-    \item Prepare user guides and system documentation.
-    \item Prepare the final project report and presentation.
+	\item Prepare datasets, a curated photography knowledge base, baselines, and
+	evaluation protocols for Film Lab recommendation, RAG, semantic search, the
+	AI Assistant, and Computer Vision-based scan-quality analysis.
+	\item Implement documented AI services for recommendation, retrieval and
+	grounded assistance, and detection of blur, exposure problems, color casts,
+	dust, and scratches; report limitations and responsible-use considerations.
+	\item Define and execute unit, contract, integration, end-to-end, security,
+	performance, recovery, and AI evaluation tests; record measurable pass/fail
+	criteria and trace defects to closure with the relevant component owner.
+	\item Produce the AI Architecture and AI Workflow diagrams; configure Docker,
+	GitHub Actions, Azure/cloud deployment, CI/CD, health checks, logging,
+	monitoring, secrets handling, backup verification, and rollback procedures.
+	\item Produce the Deployment Diagram and consolidate AI experiment evidence,
+	test results, deployment instructions, and the AI--Testing--Deployment
+	presentation and demonstration package.
 \end{itemize}
 
-\subsection{Expected Project Outcome}
+The expected outputs are the AI service prototypes, recommendation engine,
+versioned knowledge base, semantic retriever, grounded Photography Assistant,
+scan-quality analyzer, three required diagrams, automated tests and evaluation
+reports, CI/CD pipeline, cloud deployment artefacts, operations guide, and the
+AI--Testing--Deployment presentation package.
 
-Upon completion, the project is expected to deliver an integrated digital ecosystem for the analog photography community. The platform will connect photographers, Film Labs, photography experts, delivery partners, and administrators through mobile and web applications supported by cloud infrastructure and AI-powered services.
+\subsection*{Trách nhiệm chung và kiểm soát khối lượng công việc}
+
+All members participate in sprint planning, peer review, integration testing,
+issue resolution, and the final demonstration. Each member remains responsible
+for correcting defects and supplying documentation for the owned component.
+Toàn owns the AI, system-level testing, and deployment package, while the owners
+of requirements, architecture/database, backend/API, and mobile/web remain
+responsible for fixing defects in their components. Backlog estimates and actual
+effort will be reviewed at the end of each sprint; work will be redistributed
+when a package materially exceeds its planned 20\% share.
+
+\subsection*{Trình tự triển khai}
+
+\begin{enumerate}
+	\item \textbf{Yêu cầu và kiến trúc:} establish the context, requirements
+	baseline, system/data/storage architecture, API contracts, and acceptance
+	criteria.
+	\item \textbf{Phát triển và nghiên cứu song song:} implement the backend,
+	mobile and web interfaces, and AI prototypes against the agreed contracts.
+	\item \textbf{Tích hợp tăng dần:} connect mobile/web, backend, data, storage,
+	AI, payment, and logistics components early and resolve contract mismatches.
+	\item \textbf{Kiểm thử hệ thống và đánh giá AI:} execute end-to-end quality
+	assurance while evaluating AI accuracy, retrieval quality, groundedness, and
+	scan-analysis performance.
+	\item \textbf{Triển khai và hoàn thiện:} deploy the MVP, verify operations,
+	complete the documentation, and prepare the final report, presentation, and
+	demonstration.
+\end{enumerate}
+
+\subsection*{Tích hợp tổng thể dự án}
+
+The deliverables collectively form a unified ecosystem for analog photography.
+The mobile application is the primary customer interface, while the Film Lab
+and administration portals support service operations and platform governance.
+Backend services, cloud storage, search, and the Digital Film Archive provide a
+shared technical foundation. The Marketplace and knowledge-sharing modules
+support sustainable community engagement, and the AI layer enhances the
+ecosystem through personalized recommendations, semantic retrieval, contextual
+assistance, and scan-quality analysis.
+
+The five work packages directly correspond to the functional requirements,
+non-functional requirements, research objectives, and expected products. Clear
+ownership makes progress measurable, while the shared review, integration,
+testing, and documentation responsibilities preserve collective accountability
+for the final system.
+

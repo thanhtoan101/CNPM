@@ -12,3 +12,14 @@ tmp/
 *.tsbuildinfo
 apps/web/vite.config.js
 apps/web/vite.config.d.ts
+__pycache__/
+*.py[cod]
+.coverage
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+.env
+.DS_Store

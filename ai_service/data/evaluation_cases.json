@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "recommendation": [
+    {
+      "id": "rec-hcm-fast-120",
+      "query": {
+        "film_format": "120",
+        "required_services": ["developing", "scanning"],
+        "preferred_services": ["high_res_scan"],
+        "city": "Hồ Chí Minh",
+        "district": "Quận 3",
+        "budget_vnd": 200000,
+        "max_turnaround_hours": 24
+      },
+      "relevant_ids": ["retrocam-lab"]
+    },
+    {
+      "id": "rec-hanoi-sheet-film",
+      "query": {
+        "film_format": "sheet_4x5",
+        "required_services": ["develop", "scan"]
+      },
+      "relevant_ids": ["hanoi-film-lab"]
+    },
+    {
+      "id": "rec-budget-fast-35mm",
+      "query": {
+        "film_format": "35mm",
+        "required_services": ["develop", "scan"],
+        "budget_vnd": 120000,
+        "max_turnaround_hours": 48,
+        "strict_budget": true,
+        "strict_turnaround": true
+      },
+      "relevant_ids": ["danang-analog"]
+    }
+  ],
+  "retrieval": [
+    {
+      "id": "ret-blur",
+      "query": "Ảnh scan bị mờ dù âm bản nét thì phải kiểm tra gì?",
+      "relevant_ids": ["scan-blur-focus"]
+    },
+    {
+      "id": "ret-color",
+      "query": "How should a color cast in a film scan be checked?",
+      "relevant_ids": ["scan-color-cast"]
+    },
+    {
+      "id": "ret-storage",
+      "query": "Cách bảo quản âm bản và sao lưu file scan?",
+      "relevant_ids": ["negative-storage"]
+    },
+    {
+      "id": "ret-process",
+      "query": "Phim dương bản màu dùng quy trình C-41 hay E-6?",
+      "relevant_ids": ["film-process-selection"]
+    }
+  ]
+}
