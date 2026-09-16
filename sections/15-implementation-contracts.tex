@@ -1,0 +1,93 @@
+\section{Implemented Data Model and API Contracts}
+The earlier database/storage diagram describes the target platform. This
+section documents the smaller executable baseline in \path{backend/schema.sql}
+and \path{backend/server.js}. It prevents planned entities from being mistaken
+for tables already available in the submission.
+
+\subsection{Current Entity Relationships}
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[x=1cm,y=1cm,font=\small,
+ entity/.style={draw,rounded corners,fill=teal!5,text width=3.6cm,align=left,minimum height=17mm},>=Stealth]
+\node[entity] (users) at (0,0) {\textbf{users}\\id (PK), email (unique)\\password\_hash, role};
+\node[entity] (labs) at (5.3,0) {\textbf{labs}\\id (PK), owner\_id (FK)\\name, address, rating};
+\node[entity] (services) at (10.6,0) {\textbf{services}\\id (PK), lab\_id (FK)\\name, price, active};
+\node[entity] (orders) at (5.3,-3.1) {\textbf{orders}\\id (PK), user\_id (FK)\\lab\_id, service\_id (FK)\\quantity, total\_price\\status, created\_at};
+\node[entity] (courses) at (0,-5.6) {\textbf{courses}\\id (PK), course\_name\\description, status\\start\_date, end\_date};
+\draw[->] (users)--node[above]{1 : many}(labs);
+\draw[->] (labs)--node[above]{1 : many}(services);
+\draw[->] (users.south)--node[left]{1 : many}(orders.west);
+\draw[->] (labs.south)--node[right]{1 : many}(orders.north);
+\draw[->] (services.south)--node[right]{1 : many}(orders.east);
+\node[align=left,text width=6.2cm] at (7.5,-5.6) {Courses currently has no author or enrollment foreign key. Arrow direction indicates parent to dependent records.};
+\end{tikzpicture}
+\caption{ERD derived from the current five-table bootstrap schema}
+\end{figure}
+
+\subsection{Constraints and Data Dictionary}
+\begin{longtable}{p{0.20\textwidth}p{0.70\textwidth}}
+\toprule\textbf{Entity / field} & \textbf{Meaning and implemented constraint}\\\midrule\endhead
+users & Unique, non-null email; non-null password hash. Roles: photographer, lab\_owner, expert, moderator, admin. Employee/delivery identities are not yet implemented.\\
+labs & owner\_id references users; name/address required; rating is between 0 and 5 and starts at 0. API role validation controls creation, while SQL only checks the owner exists.\\
+services & Belongs to a lab; positive integer-valued NUMERIC price; active flag controls availability for order creation. Price is interpreted as VND by the current application.\\
+orders & User, lab and service references required; quantity 1--100; positive total; timestamp defaults to database time. API verifies service/lab association. Separate foreign keys alone do not enforce that association for arbitrary SQL writes.\\
+order status & Database text defaults to pending; no SQL transition constraint. The browser demo has its own six-state enum; it is not synchronized with this field.\\
+courses & Status limited to draft, published or cancelled; end date cannot precede start date. No participant or capacity table exists yet.\\
+Indexes & orders(user\_id) supports ownership filtering; services(lab\_id) supports service lookup. These are definitions, not benchmark evidence.\\
+\bottomrule
+\end{longtable}
+The bootstrap is for a new local database. Existing team databases require
+reviewed migrations and backup. Scan, payment, pickup, moderation, event
+registration and server audit tables remain additions to the target design.
+
+\subsection{Current HTTP Contract}
+Development base URL: \url{http://127.0.0.1:3000}. Protected calls use
+\texttt{Authorization: Bearer <token>}. Login returns a one-hour HS256 token;
+both signing and verification read the same secret of at least 32 characters.
+\begin{longtable}{p{0.28\textwidth}p{0.29\textwidth}p{0.32\textwidth}}
+\toprule\textbf{Endpoint} & \textbf{Access / input} & \textbf{Successful response}\\\midrule\endhead
+POST /auth/login & email, password; public & 200: message, token, user(id,email,role).\\
+GET /labs; /courses & Any valid user token & 200: database row array. Course listing currently includes all statuses; publication filtering is future work.\\
+GET /orders & Any valid token & 200: own orders; admin can list all. This is not a lab-staff assignment query.\\
+POST /labs & lab\_owner/admin; name, address, optional description & 200: created row, owner from token and rating 0.\\
+POST /courses & expert/admin; course\_name, description, status, start\_date, end\_date & 200: created course row.\\
+POST /orders & photographer/admin; integer lab\_id, service\_id, quantity & 200: created pending order; total from active service price times quantity.\\
+GET /users; /users/full & admin & 200: id, email, role only; /users/full limits results to five.\\
+GET /tables; /schema/:table & admin & 200: table or column metadata; intended for development inspection.\\
+\bottomrule
+\end{longtable}
+Malformed JSON or invalid fields return 400; invalid/missing credentials return
+401; an authenticated but disallowed role returns 403. Database failures return
+a generic 500 message. Existing creation routes return 200, not 201; documentation
+records the actual implementation rather than assuming a different contract.
+
+\textbf{Order example (illustrative, requires seeded IDs):}
+\begin{verbatim}
+POST /orders
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{"lab_id": 1, "service_id": 2, "quantity": 3}
+\end{verbatim}
+If the selected service costs 120,000 VND, the persisted total is 360,000 VND.
+The example is arithmetic and a contract illustration, not a captured live
+database response. No endpoint accepts the browser's local storage snapshot as
+trusted authorization or order data.
+
+\subsection{Integration Decisions and Remaining Contracts}
+\begin{description}[style=nextline]
+\item[Current stack] React/TypeScript/Vite, Flutter sources, Express/PostgreSQL
+and a separate Python AI service are present. Next.js, ASP.NET Core, OAuth2,
+hosted GPT and managed search listed earlier are candidate technologies, not
+additional installed implementations.
+\item[Private scan design] Target storage keeps file bytes separate from SQL
+metadata. An authorized API should issue short-lived access, verify upload
+completion and publish metadata transactionally. The current demo stores only
+file name, size and type; it does not implement this storage protocol.
+\item[Status integration] Agree a shared order enum, allowed transition table,
+resource ownership checks and concurrency/version behavior before connecting
+the frontend. Preserve physical processing detail in history even if the UI
+groups stages into simpler labels.
+\item[Transaction boundaries] Reservation, pickup, payment and notification need
+idempotency and failure recovery contracts. A browser success message is not
+evidence of a committed external transaction.
+\end{description}

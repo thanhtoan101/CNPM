@@ -2,7 +2,7 @@
 
 Checklist nội bộ ngày 17/09/2026, hỗ trợ chuẩn bị bài nộp và trình bày. Không thay thế yêu cầu chính thức của giảng viên. Chỉ đánh dấu mục đã thực hiện và có bằng chứng tương ứng.
 
-Kết quả thực tế của lần rà soát nằm trong [Verification.md](Verification.md): 61 kiểm thử tự động đạt, web build đạt, kiểm tra Services lưu sau reload đạt, PDF 38 trang đã xem. Các ca thủ công bên dưới giữ trạng thái chưa chạy nếu chưa thực hiện trọn kịch bản; unit test không thay thế kết quả chạy thiết bị hoặc tích hợp.
+Kết quả thực tế của lần rà soát nằm trong [Verification.md](Verification.md): 61 kiểm thử tự động đạt, web build đạt, kiểm tra Services lưu sau reload đạt, PDF 48 trang đã xem. Các ca thủ công bên dưới giữ trạng thái chưa chạy nếu chưa thực hiện trọn kịch bản; unit test không thay thế kết quả chạy thiết bị hoặc tích hợp.
 
 ## 1. Kiểm tra gói nộp
 

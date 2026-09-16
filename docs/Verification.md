@@ -13,7 +13,7 @@ Môi trường: Windows, Node.js 24.19.0, Python bundled của Codex, Chrome pro
 | Chrome Services | Thêm E6 Test Service, giá 320.000 VND; reload; mở Services | Dữ liệu vẫn tồn tại. Đã sửa lỗi validator optional làm mất state khi reload và thêm regression test. |
 | Chrome Admin | Chuyển Admin, xem hàng đợi và dashboard | Dữ liệu mẫu và audit count phản ánh thay đổi dịch vụ. |
 | File picker scan | Chọn JPEG mẫu | Extension chặn chọn tệp; chưa ghi manual Pass. Logic scan/publication có unit test. |
-| Báo cáo | Tectonic; render/xem bố cục 38 trang | Đạt, không tràn khung hoặc thiếu ký tự trong log. |
+| Báo cáo | Tectonic; render/xem bố cục 48 trang | Đạt, không tràn khung hoặc thiếu ký tự trong log. |
 | Flutter | Đọc mã nguồn và test | Chưa chạy analyze/test/device do thiếu Flutter SDK. |
 | Tích hợp/cloud | DB thật, frontend/API, Azure, payment/logistics/storage | Chưa chạy, không tuyên bố đã triển khai. |
 

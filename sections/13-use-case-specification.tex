@@ -1,0 +1,178 @@
+\section{Use Case Specification and Business Rules}
+The six use cases refine the business flows into reviewable contracts. They
+describe the target platform. A success condition in this section is an
+acceptance requirement, not evidence that the integration already exists.
+The identifiers UC-01--UC-06 are local report identifiers and do not create
+additional Jira tasks.
+
+\subsection{Use Case Overview}
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[x=0.91cm,y=0.91cm,font=\small,
+ uc/.style={draw,ellipse,text width=6cm,align=center,minimum height=9mm},
+ actor/.style={align=center,text width=2.2cm}]
+\draw[rounded corners,gray] (2.5,0.8) rectangle (12,-8.5);
+\node[font=\small\bfseries] at (7.25,0.45) {Film Photography Platform (target)};
+\node[uc] (u1) at (7.25,-0.5) {UC-01 Discover and compare Film Labs};
+\node[uc] (u2) at (7.25,-2) {UC-02 Book service and arrange collection};
+\node[uc] (u3) at (7.25,-3.5) {UC-03 Manage processing lifecycle};
+\node[uc] (u4) at (7.25,-5) {UC-04 Deliver scans and manage archive};
+\node[uc] (u5) at (7.25,-6.5) {UC-05 Buy, sell or exchange equipment};
+\node[uc] (u6) at (7.25,-8) {UC-06 Share knowledge and join events};
+\node[actor] (p) at (0.9,-1) {Photographer / Community member};
+\node[actor] (l) at (0.9,-4) {Lab owner / Employee};
+\node[actor] (e) at (0.9,-7.8) {Photography expert};
+\node[actor] (d) at (13.6,-2) {Delivery partner};
+\node[actor] (m) at (13.6,-6.7) {Administrator / Moderator};
+\draw (p)--(u1);\draw (p)--(u2);\draw (p)--(u4);\draw (p)--(u5);\draw (p)--(u6);
+\draw (l)--(u2);\draw (l)--(u3);\draw (l)--(u4);
+\draw (d)--(u2);\draw (m)--(u5);\draw (m)--(u6);\draw (e)--(u6);
+\end{tikzpicture}
+\caption{Business use case associations; supporting AI and storage services are shown in the architecture}
+\end{figure}
+
+\clearpage
+\subsection{UC-01: Discover and Compare Film Labs}
+\textbf{Primary actor:} Photographer. \textbf{Trigger:} open discovery or submit filters.
+\textbf{Preconditions:} a searchable lab catalogue exists; personalization is
+optional. \textbf{Success:} the selected lab and service remain available for
+the booking preview. \textbf{Failure guarantee:} searching does not create an order.
+\begin{enumerate}
+\item Enter location, film format, budget or turnaround preferences.
+\item Validate filters and retrieve matching active lab services.
+\item Rank eligible results; optional AI recommendations explain their basis.
+\item Inspect price, supported formats, address and estimated turnaround.
+\item Select a lab and continue with its current service catalogue.
+\end{enumerate}
+\textbf{Exceptions:} no matches preserves filters and suggests changing them;
+missing history uses ordinary ranking; unavailable AI leaves normal search
+available. A removed service must be revalidated before booking.
+\textbf{Acceptance:} a keyword and film-format filter apply together; zero results
+show an explicit empty state; choosing a result opens the correct lab.
+\textbf{Trace:} US-01, SCRUM-5/28, \path{apps/mobile/lib/screens/home_screen.dart}.
+Mobile filtering uses sample data; AI ranking is a separate Python module.
+
+\subsection{UC-02: Book Service and Arrange Collection}
+\textbf{Primary actor:} Photographer. \textbf{Supporting actors:} Lab and delivery
+partner. \textbf{Preconditions:} signed-in customer, active service at the selected
+lab, positive integer quantity. \textbf{Success:} an order ID, price snapshot and
+collection choice are recorded. \textbf{Failure guarantee:} invalid inputs do not
+create an order or charge the customer.
+\begin{enumerate}
+\item Select service, film details, scan options and quantity.
+\item Choose direct drop-off or supply pickup address and time.
+\item Calculate the estimate and show service and collection charges separately.
+\item Confirm; the API checks ownership, availability and authoritative price.
+\item Persist the order and request collection if required.
+\item Display order code; the lab accepts or rejects capacity-dependent work.
+\end{enumerate}
+\textbf{Exceptions:} unavailable service requires reselection; unavailable pickup
+offers another slot/drop-off; missing fields remain editable; a repeated request
+must not create duplicate orders in the target integration.
+\textbf{Acceptance:} quantity zero, fractional or above 100 is rejected by the
+current API; a client-supplied total cannot override the catalogue price.
+\textbf{Trace:} US-02, BR-02, SCRUM-6/28. Mobile is a preview; the independent
+API implements basic creation without pickup, payment or idempotency.
+
+\clearpage
+\subsection{UC-03: Manage the Processing Lifecycle}
+\textbf{Primary actor:} Lab employee. \textbf{Preconditions:} authenticated staff
+assigned to the order's lab; received film matches the request.
+\textbf{Success:} a permitted stage change records actor, time and notes.
+\textbf{Failure guarantee:} an invalid transition does not alter the last valid state.
+\begin{enumerate}
+\item Find the order and inspect requested service, rolls and handling notes.
+\item Verify the physical receipt and record discrepancies before processing.
+\item Advance through development, washing/drying, scanning and preparation.
+\item Inspect quality; record a rework or delay when needed.
+\item Save the stage history and notify the customer of relevant changes.
+\end{enumerate}
+\textbf{Exceptions:} damaged film pauses the target workflow; failed quality
+requires a recorded rework; a stale concurrent update must be rejected rather
+than overwrite a newer stage. Offline retention and resynchronization are target
+requirements, not current web behavior.
+\textbf{Acceptance:} only a permitted next stage is offered; completed orders
+cannot advance; a scan order at quality check cannot complete without reviewed
+publication. \textbf{Trace:} US-03/04, BR-03, SCRUM-8/29, web domain tests.
+The demo combines physical substeps and persists browser state only.
+
+\subsection{UC-04: Deliver Scans and Manage the Archive}
+\textbf{Primary actor:} Lab employee, followed by photographer.
+\textbf{Preconditions:} scan order at quality check, files ready for review and
+authorized customer ownership. \textbf{Success:} reviewed scans are available
+privately to the correct customer. \textbf{Failure guarantee:} rejected files
+are not published; pending transfers do not mark delivery complete.
+\begin{enumerate}
+\item Select the order and scan files; validate type, size and duplicate names.
+\item Transfer bytes to private storage and verify successful transfer.
+\item Review image quality and available film/camera/scan metadata.
+\item Confirm publication; save metadata and append a release audit record.
+\item Notify the customer, who can view, download, tag and organize the images.
+\end{enumerate}
+\textbf{Exceptions:} invalid/corrupt files require replacement; transfer failures
+remain pending; unauthorized reads are denied; optional missing metadata can be
+added later without changing the original scan bytes.
+\textbf{Acceptance:} the local prototype accepts 1--100 JPEG/TIFF files,
+each greater than zero and at most 50 MiB; review and release confirmations are
+required; duplicate publication is rejected. Filename/MIME validation is not
+file-content inspection. \textbf{Trace:} US-05/06, BR-04/05, SCRUM-9/29/31.
+Only private metadata is saved locally; cloud transfer/download remains planned.
+
+\clearpage
+\subsection{UC-05: Buy, Sell or Exchange Equipment}
+\textbf{Primary actors:} Seller and buyer. \textbf{Supporting actor:} Moderator.
+\textbf{Preconditions:} signed-in users and a valid active listing.
+\textbf{Success:} a transaction and final listing state are recorded.
+\textbf{Failure guarantee:} an unavailable listing cannot open a new transaction.
+\begin{enumerate}
+\item Seller enters category, condition, description, price and photographs.
+\item Validate and publish the listing; buyers search and inspect its details.
+\item Buyer contacts the seller and requests purchase or exchange.
+\item Seller confirms; the system records reservation and transaction status.
+\item Record fulfillment or cancellation, then allow eligible feedback.
+\end{enumerate}
+\textbf{Exceptions:} incomplete listings stay draft; sold/hidden/expired items
+reject requests; disputes preserve evidence and reach the moderation queue;
+simultaneous buyers require server-side reservation consistency.
+\textbf{Acceptance:} visibility and availability have explicit labels; a moderation
+decision requires a reason, updates the linked listing when applicable and
+records an audit event. \textbf{Trace:} US-07/08, BR-06/07, SCRUM-10/30/31.
+The prototype supports catalogue and local moderation; payment, messaging,
+reservation and transaction fulfillment are not implemented end to end.
+
+\subsection{UC-06: Share Knowledge and Join Events}
+\textbf{Primary actors:} Expert and community member. \textbf{Supporting actor:}
+Moderator. \textbf{Preconditions:} contributor is permitted to publish; event
+dates and capacity are valid. \textbf{Success:} content or registration is stored
+and visible to the appropriate audience. \textbf{Failure guarantee:} rejected
+content is not silently published; a full event does not overbook.
+\begin{enumerate}
+\item Author submits an article, tutorial, review or event description.
+\item Validate required content and perform the applicable moderation review.
+\item Publish accepted content so members can search, read and discuss it.
+\item Register interested members while checking capacity and duplicate entries.
+\item Send event changes/reminders and preserve useful follow-up discussion.
+\end{enumerate}
+\textbf{Exceptions:} reported content enters review; full events close or waitlist;
+cancellation notifies registrants; duplicate registration returns the existing
+registration rather than consuming another seat.
+\textbf{Acceptance:} date range is valid, moderation is traceable and capacity
+cannot be exceeded under concurrent registration.
+\textbf{Trace:} Core Flow 6, BR-08, SCRUM-10. The backend has basic course
+creation/date validation; article, discussion, enrollment and notification
+services remain target work.
+
+\subsection{Shared Business Rules}
+\begin{longtable}{p{0.13\textwidth}p{0.78\textwidth}}
+\toprule\textbf{Rule} & \textbf{Required invariant}\\\midrule\endhead
+BR-01 & Access is scoped by role and resource ownership; a portal switch is not authentication.\\
+BR-02 & Booking quantity is a positive integer; server catalogue determines the persisted price.\\
+BR-03 & Processing follows permitted transitions; the history retains actor, time and exception notes.\\
+BR-04 & Scans belong to the selected order/customer and require quality review before release.\\
+BR-05 & New delivery is private; personal organization does not overwrite original scan files.\\
+BR-06 & Unavailable marketplace listings cannot accept new transactions.\\
+BR-07 & Administrative decisions require evidence, appropriate reasons and an audit record.\\
+BR-08 & Events respect capacity; changes and cancellation reach registered members.\\
+BR-09 & AI discloses insufficient evidence; ordinary search remains available independently.\\
+BR-10 & Demo data and proposed targets are never presented as measured production results.\\
+\bottomrule
+\end{longtable}
