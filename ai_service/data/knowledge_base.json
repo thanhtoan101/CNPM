@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "language": "vi-en",
+  "provenance": {
+    "status": "project-authored demonstration content",
+    "expert_reviewed": false,
+    "production_approved": false
+  },
+  "documents": [
+    {
+      "id": "film-lab-selection",
+      "title": "Tiêu chí lựa chọn Film Lab",
+      "source": "kb://film-lab/selection-criteria",
+      "tags": ["Film Lab", "MiniLab", "recommendation", "turnaround", "rating"],
+      "content": "Khi chọn Film Lab, người dùng cần đối chiếu định dạng phim được hỗ trợ, loại quy trình tráng, chất lượng scan, mức giá, thời gian trả kết quả, vị trí và đánh giá đã xác minh. Một đề xuất phù hợp phải ưu tiên các tiêu chí bắt buộc trước, sau đó mới dùng sở thích và lịch sử đơn hàng để xếp hạng. Người dùng nên kiểm tra chính sách xử lý âm bản, giao nhận và giải quyết khiếu nại trước khi đặt dịch vụ."
+    },
+    {
+      "id": "film-process-selection",
+      "title": "Phân biệt quy trình C-41, E-6 và phim đen trắng",
+      "source": "kb://film-processing/process-selection",
+      "tags": ["C-41", "E-6", "black and white", "developing"],
+      "content": "Phim âm bản màu thông dụng thường dùng quy trình C-41, còn phim dương bản màu dùng quy trình E-6. Phim đen trắng cần hóa chất và thời gian tráng phù hợp với từng loại phim; không nên tự động chuyển sang C-41 trừ khi nhà sản xuất ghi rõ đó là phim đen trắng dùng quy trình C-41. Người dùng phải đọc mã quy trình trên vỏ hoặc datasheet của cuộn phim và chọn Film Lab có hỗ trợ đúng quy trình."
+    },
+    {
+      "id": "scan-blur-focus",
+      "title": "Đánh giá ảnh scan bị mờ và mất nét",
+      "source": "kb://scan-quality/blur-focus",
+      "tags": ["blur", "sharpness", "focus", "computer vision", "scan quality"],
+      "content": "Ảnh scan bị mờ có thể bắt nguồn từ ảnh chụp sai nét, rung máy, phim không phẳng trong máy scan hoặc thiết bị scan lấy nét chưa đúng. Cần xem trực tiếp âm bản bằng kính lúp: nếu chi tiết trên âm bản sắc nét nhưng tệp scan mờ, Film Lab nên scan lại và kiểm tra mặt phẳng phim. Chỉ số độ sắc nét từ Computer Vision là tín hiệu sàng lọc, không đủ để tự kết luận nguyên nhân nếu thiếu kiểm tra âm bản."
+    },
+    {
+      "id": "scan-exposure-density",
+      "title": "Phân tích độ sáng ảnh scan và mật độ âm bản",
+      "source": "kb://scan-quality/exposure-density",
+      "tags": ["exposure", "underexposed", "overexposed", "histogram", "negative density"],
+      "content": "Ảnh scan quá tối hoặc quá sáng không tự động chứng minh rằng ảnh gốc bị sai phơi sáng vì phần mềm scan có thể thay đổi mức sáng. Cần kết hợp histogram của tệp scan với quan sát mật độ âm bản và thông tin chụp để phân biệt lỗi phơi sáng với lỗi thiết lập scan. Vùng bị cắt histogram có thể mất chi tiết và nên được cảnh báo để kỹ thuật viên kiểm tra lại."
+    },
+    {
+      "id": "scan-color-cast",
+      "title": "Kiểm tra ám màu trong ảnh scan phim",
+      "source": "kb://scan-quality/color-cast",
+      "tags": ["color cast", "white balance", "film base", "scan quality"],
+      "content": "Ám màu có thể xuất phát từ nguồn sáng khi chụp, đặc tính của film stock, hóa chất tráng, lớp nền màu của âm bản hoặc cân bằng màu khi scan. Hệ thống có thể so sánh thống kê các kênh màu để phát hiện khả năng lệch màu, nhưng kỹ thuật viên vẫn phải xem vùng trung tính và âm bản trước khi chỉnh sửa. Bản scan chỉnh màu nên được lưu thành phiên bản mới để không ghi đè tệp gốc."
+    },
+    {
+      "id": "scan-dust-scratches",
+      "title": "Phát hiện bụi và vết xước trên bản scan",
+      "source": "kb://scan-quality/dust-scratches",
+      "tags": ["dust", "scratch", "infrared cleaning", "computer vision"],
+      "content": "Bụi thường tạo các đốm nhỏ cục bộ, còn vết xước thường tạo đường mảnh kéo dài trên ảnh scan. Hệ thống Computer Vision có thể đánh dấu vùng nghi vấn để kỹ thuật viên duyệt, nhưng không được tự xóa chi tiết ảnh chỉ dựa trên điểm bất thường. Làm sạch phim đúng dụng cụ và scan lại được ưu tiên khi lỗi nằm trên bề mặt âm bản."
+    },
+    {
+      "id": "scan-resolution-printing",
+      "title": "Chọn độ phân giải scan theo mục đích sử dụng",
+      "source": "kb://scan-quality/resolution-printing",
+      "tags": ["scan resolution", "DPI", "PPI", "printing", "archive"],
+      "content": "Độ phân giải scan nên được chọn theo kích thước âm bản, kích thước in dự kiến và mức độ chỉnh sửa thay vì chỉ dựa trên một con số DPI quảng cáo. Tệp dùng để xem trực tuyến có thể nhỏ hơn tệp lưu trữ hoặc in, trong khi bản lưu trữ nên giữ độ phân giải và độ sâu màu cao mà thiết bị tạo ra có ý nghĩa. Người dùng cần lưu cả thông số máy scan, độ phân giải, định dạng tệp và hồ sơ màu trong metadata."
+    },
+    {
+      "id": "negative-storage",
+      "title": "Bảo quản âm bản và tệp scan",
+      "source": "kb://archive/negative-and-digital-storage",
+      "tags": ["film storage", "negative", "archive", "backup", "metadata"],
+      "content": "Âm bản đã tráng cần được cất trong bao phim đạt chuẩn lưu trữ, đặt ở nơi khô, mát, sạch và tránh ánh nắng trực tiếp. Chỉ cầm phim ở mép bằng tay sạch hoặc găng phù hợp để hạn chế dấu vân tay và trầy xước. Tệp scan nên có ít nhất một bản sao lưu ở vị trí độc lập và đi kèm metadata về film stock, máy ảnh, ngày chụp, quy trình tráng và thông số scan."
+    },
+    {
+      "id": "film-pickup-delivery",
+      "title": "Giao nhận cuộn phim an toàn",
+      "source": "kb://orders/pickup-delivery",
+      "tags": ["pickup", "delivery", "order tracking", "film roll"],
+      "content": "Mỗi cuộn phim giao cho đơn vị vận chuyển cần có mã đơn không trùng, thông tin liên hệ và bao bì chống ẩm, chống va đập. Trạng thái bàn giao phải được xác nhận ở các mốc khách hàng, đối tác giao nhận và Film Lab để giảm nguy cơ thất lạc. Không để phim chưa tráng chịu nhiệt cao kéo dài và nên dùng kiểm tra thủ công thay cho máy X-quang liều cao khi điều kiện vận chuyển cho phép."
+    }
+  ]
+}

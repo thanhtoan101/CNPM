@@ -1,0 +1,183 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Film Community AI Service",
+    "version": "0.1.0",
+    "description": "Offline, explainable baselines for Film Lab recommendation, knowledge retrieval, grounded assistance, and scan-quality analysis. Production access must pass through the authenticated shared backend."
+  },
+  "servers": [
+    {"url": "http://127.0.0.1:8080", "description": "Local development only"}
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Liveness check",
+        "responses": {"200": {"description": "Process is healthy", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SuccessEnvelope"}}}}}
+      }
+    },
+    "/ready": {
+      "get": {
+        "summary": "Readiness check",
+        "responses": {"200": {"description": "Catalog and knowledge data are loaded", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SuccessEnvelope"}}}}}
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "summary": "Machine-readable API contract",
+        "responses": {"200": {"description": "OpenAPI 3.1 document"}}
+      }
+    },
+    "/v1/recommendations": {
+      "post": {
+        "summary": "Rank Film Labs with explanations",
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/RecommendationRequest"}}}
+        },
+        "responses": {
+          "200": {"description": "Ranked eligible Film Labs", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SuccessEnvelope"}}}},
+          "400": {"$ref": "#/components/responses/ValidationError"},
+          "413": {"$ref": "#/components/responses/PayloadTooLarge"},
+          "415": {"$ref": "#/components/responses/UnsupportedMediaType"}
+        }
+      }
+    },
+    "/v1/search": {
+      "post": {
+        "summary": "Retrieve ranked photography knowledge",
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SearchRequest"}}}
+        },
+        "responses": {
+          "200": {"description": "Ranked knowledge documents", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SuccessEnvelope"}}}},
+          "400": {"$ref": "#/components/responses/ValidationError"}
+        }
+      }
+    },
+    "/v1/assistant/ask": {
+      "post": {
+        "summary": "Return cited extractive evidence or abstain",
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AssistantRequest"}}}
+        },
+        "responses": {
+          "200": {"description": "Grounded answer or insufficient_knowledge response", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SuccessEnvelope"}}}},
+          "400": {"$ref": "#/components/responses/ValidationError"}
+        }
+      }
+    },
+    "/v1/scan-quality": {
+      "post": {
+        "summary": "Calculate explainable scan-quality heuristics",
+        "requestBody": {
+          "required": true,
+          "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ScanQualityRequest"}}}
+        },
+        "responses": {
+          "200": {"description": "Quality metrics, issues, recommendations and limitations", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/SuccessEnvelope"}}}},
+          "400": {"$ref": "#/components/responses/ValidationError"},
+          "413": {"$ref": "#/components/responses/PayloadTooLarge"}
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SuccessEnvelope": {
+        "type": "object",
+        "required": ["request_id", "data"],
+        "properties": {
+          "request_id": {"type": "string", "pattern": "^[0-9a-f]{32}$"},
+          "data": {"type": "object"}
+        }
+      },
+      "ErrorEnvelope": {
+        "type": "object",
+        "required": ["request_id", "error"],
+        "properties": {
+          "request_id": {"type": "string"},
+          "error": {
+            "type": "object",
+            "required": ["code", "message"],
+            "properties": {
+              "code": {"type": "string"},
+              "message": {"type": "string"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "RecommendationRequest": {
+        "type": "object",
+        "required": ["query"],
+        "properties": {
+          "query": {
+            "type": "object",
+            "required": ["film_format", "required_services"],
+            "properties": {
+              "film_format": {"type": "string", "minLength": 1},
+              "required_services": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+              "preferred_services": {"type": "array", "items": {"type": "string", "minLength": 1}},
+              "city": {"type": "string"},
+              "district": {"type": "string"},
+              "budget_vnd": {"type": "integer", "minimum": 1, "description": "Preference or strict limit against the catalog base price, not a final multi-service quote."},
+              "max_turnaround_hours": {"type": "integer", "minimum": 1},
+              "minimum_rating": {"type": "number", "minimum": 0, "maximum": 5},
+              "strict_budget": {"type": "boolean", "default": false},
+              "strict_turnaround": {"type": "boolean", "default": false}
+            },
+            "additionalProperties": false
+          },
+          "top_k": {"type": "integer", "minimum": 1, "default": 3},
+          "weights": {
+            "type": "object",
+            "required": ["format", "services", "location", "budget", "turnaround", "rating"],
+            "properties": {
+              "format": {"type": "number", "minimum": 0},
+              "services": {"type": "number", "minimum": 0},
+              "location": {"type": "number", "minimum": 0},
+              "budget": {"type": "number", "minimum": 0},
+              "turnaround": {"type": "number", "minimum": 0},
+              "rating": {"type": "number", "minimum": 0}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchRequest": {
+        "type": "object",
+        "required": ["query"],
+        "properties": {
+          "query": {"type": "string", "minLength": 1, "maxLength": 2000},
+          "top_k": {"type": "integer", "minimum": 1, "default": 3},
+          "min_score": {"type": "number", "minimum": 0, "maximum": 1, "default": 0}
+        },
+        "additionalProperties": false
+      },
+      "AssistantRequest": {
+        "type": "object",
+        "required": ["question"],
+        "properties": {"question": {"type": "string", "minLength": 1, "maxLength": 2000}},
+        "additionalProperties": false
+      },
+      "ScanQualityRequest": {
+        "type": "object",
+        "required": ["image_base64"],
+        "properties": {
+          "image_base64": {"type": "string", "contentEncoding": "base64"},
+          "max_dimension": {"type": "integer", "minimum": 64, "maximum": 4096, "default": 1024}
+        },
+        "additionalProperties": false
+      }
+    },
+    "responses": {
+      "ValidationError": {"description": "Input validation failed", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorEnvelope"}}}},
+      "PayloadTooLarge": {"description": "Request or decoded image exceeds a configured limit", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorEnvelope"}}}},
+      "UnsupportedMediaType": {"description": "Content-Type is not application/json", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/ErrorEnvelope"}}}}
+    }
+  }
+}
