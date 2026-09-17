@@ -1,0 +1,90 @@
+\section{Measurable Quality Acceptance Plan}
+The following thresholds are proposed engineering targets for team review,
+not an official lecturer rubric, measured service levels or completed tests.
+They make the broad non-functional requirements assessable in a later
+integration milestone.
+\begin{longtable}{p{0.14\textwidth}p{0.43\textwidth}p{0.33\textwidth}}
+\toprule\textbf{ID / area} & \textbf{Proposed acceptance criterion} & \textbf{Method / current evidence}\\\midrule\endhead
+NFR-01 Security & All protected endpoints reject absent/invalid tokens; forbidden role/resource access cannot read or mutate data. & Negative HTTP cases and cross-user tests. Eleven backend tests provide partial evidence, with a DB stub.\\
+NFR-02 Performance & With 10,000 seeded labs and 50 concurrent clients, discovery API p95 below 2 s and error rate below 1\% during a 10-minute run. & Record hardware, dataset, warm-up, latency distribution and errors. Not run.\\
+NFR-03 Reliability & Restart after an acknowledged order write preserves that order; retrying the same booking key produces one order. & Kill/restart plus duplicate-request integration test. Persistence/idempotency not verified.\\
+NFR-04 Recovery & Proposed development recovery objective: at most 24 h data loss and restoration within 4 h. & Restore a backup into an isolated DB and verify row/file ownership counts. Not run.\\
+NFR-05 Privacy & Customer A cannot obtain customer B's scan metadata or file bytes; new deliveries default private. & API and storage authorization tests, including expired links. Only local metadata privacy is tested.\\
+NFR-06 Usability & Core forms usable by keyboard; required actions reachable at 360 px and 1280 px widths without clipped controls. & Manual focus, labels, validation, narrow-screen review. No complete accessibility audit claimed.\\
+NFR-07 Integrity & Concurrent reservations cannot oversell; invalid quantity, lab/service mismatch and dates are rejected. & API unit tests cover part of validation; concurrent DB transactions remain untested.\\
+NFR-08 Maintainability & A fresh checkout installs from lockfiles and passes TypeScript build and deterministic unit suites. & npm ci and web build passed; 61 automated tests passed. Flutter execution is pending.\\
+NFR-09 AI behavior & Unsupported questions disclose insufficient evidence; recommendations respect explicit hard constraints. & Existing local AI tests cover constrained behavior; results are not a general model-accuracy benchmark.\\
+\bottomrule
+\end{longtable}
+
+\section{Acceptance Traceability}
+Detailed stories and manual TC identifiers are maintained in
+\path{docs/AcceptanceTraceability.md} and \path{docs/SubmissionChecklist.md}.
+The matrix below is a compact assessment guide; ``local'' always means one
+browser using demonstration data.
+\begin{longtable}{p{0.19\textwidth}p{0.31\textwidth}p{0.40\textwidth}}
+\toprule\textbf{Requirement} & \textbf{Artifact / Jira} & \textbf{Evidence and status}\\\midrule\endhead
+UC-01 / US-01 & Mobile Home; SCRUM-5/28 & Search/filter source exists. Flutter runtime unverified; AI tests are independent of mobile.\\
+UC-02 / US-02 & Mobile preview, POST /orders; SCRUM-6/28 & Preview pricing corrected; API quantity/price tested with stub. Full booking flow not integrated.\\
+UC-03 / US-03/04 & Web Orders and domain; SCRUM-8/29 & Search/details and permitted local transitions; domain tests pass. No mobile synchronization.\\
+UC-04 / US-05/06 & ScanDelivery, Archive; SCRUM-9/29/31 & Validation/publication logic tested; picker automation blocked. No cloud delivery/download proof.\\
+UC-05 / US-07/08 & Marketplace, Moderation; SCRUM-10/30/31 & Local listing decisions and audit rules tested. No completed purchase/payment.\\
+UC-06 / BR-08 & FunctionalRequirements; course API & Six-flow specification exists. Registration, capacity and article discussion remain planned.\\
+US-09 / BR-07 & ApprovalsPage; SCRUM-30 & Incomplete applications blocked; reason requirements tested. No server approval workflow.\\
+US-10 & Theme/styles and form components; SCRUM-27 & Explicit empty/error/focus states; complete usability assessment pending.\\
+US-11 / BR-09 & Mobile assistant and Python AI; SCRUM-28 & Mobile responses are samples. Python tests cover independent retrieval/recommendation behavior.\\
+US-12 & Report, diagrams, matrix; SCRUM-4/26/32 & Source paths, use cases, schema and verification connected in the document package.\\
+\bottomrule
+\end{longtable}
+
+\section{Release Checklist and Risks}
+\begin{enumerate}
+\item Review this PDF with the source requirements and any official marking rubric.
+\item Check that the main branch contains the final source and documentation;
+record the exact release commit rather than relying on a local folder name.
+\item Install clean dependencies and run the documented component commands;
+preserve failures and unverified integrations in the handover notes.
+\item Rehearse the six-minute local demo and explain the role/storage boundaries.
+\item Link GitHub evidence on the relevant Jira issues; only close an issue when
+its own acceptance criteria have been met.
+\item Confirm the submission destination and submit through the course's required
+channel. A GitHub merge does not establish submission to the lecturer.
+\end{enumerate}
+
+The most significant remaining risks are frontend/API contract mismatch,
+unverified mobile build and database setup, and absent cloud delivery and
+transaction services. Mitigation is to present the tested prototype scope
+accurately, prioritize a single authenticated booking-to-delivery integration,
+then add resource authorization and failure-recovery tests before deployment.
+The team should obtain the official rubric to determine whether a proposal,
+prototype or fully integrated system is required for this milestone.
+
+\section{Glossary and Evidence Sources}
+\begin{description}[style=nextline]
+\item[Film Lab] A provider that receives physical film, processes it and optionally
+scans/prints the results.
+\item[Scan delivery] Release of digital output linked to an order; selecting a local
+file alone is not delivery.
+\item[Digital Film Archive] A customer's organized collection of scan files and
+metadata, with ownership and privacy controls.
+\item[RBAC / ownership] Role permissions determine the class of allowed action;
+resource ownership limits which customer's or lab's records it can affect.
+\item[Prototype] A limited implementation for evaluating interactions and design,
+with explicitly documented data and integration boundaries.
+\item[Traceability] A link from a requirement to its design, source implementation,
+test or review result and work item.
+\end{description}
+
+Primary evidence for this report is the project repository and its executable
+tests, rather than external benchmark claims:
+\begin{itemize}
+\item Repository: \url{https://github.com/thanhtoan101/CNPM}.
+\item Requirement integration: \url{https://github.com/thanhtoan101/CNPM/pull/9}.
+\item Mobile/Web integration: \url{https://github.com/thanhtoan101/CNPM/pull/8}.
+\item Completion review: \url{https://ut-team-fy1tb246.atlassian.net/browse/SCRUM-39}.
+\item Source specifications: \path{docs/FunctionalRequirements.md},
+\path{docs/MobileWeb.md}, \path{backend/schema.sql}, \path{backend/README.md}.
+\item Reproduction and test boundaries: \path{README.md},
+\path{docs/Verification.md}, \path{apps/web/test/domain.test.ts},
+\path{backend/test/auth.test.js}, \path{tests/}.
+\end{itemize}

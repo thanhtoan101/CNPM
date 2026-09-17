@@ -1,81 +1,106 @@
-\documentclass[a4paper,11pt]{book}
-
-% ============================================================
-% 1. PACKAGES
-% ============================================================
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{lmodern}
-\usepackage{graphicx}
-\usepackage{hyperref}
+% Compile with XeLaTeX (twice) or Tectonic. Unicode fonts preserve team names.
+\documentclass[a4paper,11pt,oneside]{book}
+\usepackage{fontspec}
+\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{\setmainfont{TeX Gyre Termes}}
+\IfFontExistsTF{Arial}{\setsansfont{Arial}}{\setsansfont{TeX Gyre Heros}}
 \usepackage[english]{babel}
+\usepackage[margin=25mm,headheight=14pt]{geometry}
+\usepackage{graphicx}
+\usepackage{array,longtable,booktabs,tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
+\usepackage{microtype}
+\usepackage[unicode,hidelinks]{hyperref}
+\hypersetup{pdftitle={AI-powered Film Photography Platform: Software Engineering Report},pdfauthor={CNPM Project Team}}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{1}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\emergencystretch}{3em}
+\setlist{itemsep=3pt,topsep=5pt}
+\renewcommand{\arraystretch}{1.15}
 
-% ============================================================
-% 2. DOCUMENT INFORMATION
-% ============================================================
-\title{
-    \Huge\textbf{
-        AI-powered Platform Connecting Film Photography
-        Enthusiasts with Film Processing Labs
-    }
-}
-
-\author{Software Engineering Project}
-\date{\today}
-
-% ============================================================
-% 3. DOCUMENT
-% ============================================================
 \begin{document}
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\centering
+{\Large SOFTWARE ENGINEERING PROJECT\par}
+\vspace{12mm}
+{\Huge\bfseries AI-powered Platform\par}
+\vspace{4mm}
+{\LARGE Connecting Film Photography Enthusiasts\par}
+\vspace{2mm}
+{\LARGE with Film Processing Labs\par}
+\vspace{12mm}
+{\large Proposal, System Design, and Prototype Handover\par}
+\vspace{15mm}
+\begin{tabular}{ll}
+\toprule
+\textbf{Team member} & \textbf{Primary work package}\\
+\midrule
+Nguyễn Thái Gia Bảo & Context and business requirements\\
+Lê Thị Như Quân & Architecture and database\\
+Huỳnh Gia Hợp & Backend and API\\
+Nguyễn Đào Quốc Khánh & Mobile and web applications\\
+Nguyễn Thành Toàn & AI, testing, and deployment\\
+\bottomrule
+\end{tabular}
+\vfill
+{\large Submission snapshot: 17 September 2026\par}
+\vspace{5mm}
+\url{https://github.com/thanhtoan101/CNPM}
+\end{titlepage}
 
-\maketitle
+\frontmatter
+\hypersetup{pageanchor=true}
+\chapter*{Report Scope}
+\addcontentsline{toc}{chapter}{Report Scope}
+This report consolidates the team's proposal, requirements, architecture, and
+mobile/web design. Statements using ``shall'', ``will'', and ``proposed'' define
+the intended platform and its acceptance criteria; they do not imply that every
+feature has already been implemented or deployed.
 
-\tableofcontents
+The repository contains a React/TypeScript web prototype, a Flutter mobile
+prototype, an Express backend, and a separate Python AI prototype. The frontend
+demonstration uses local data. A working user interface does not establish
+successful payment, real cloud scan delivery, cross-device synchronization,
+or production authentication. The final chapter records the implementation
+boundaries and a reproducible demonstration checklist.
 
-% ============================================================
-% 5. MAIN CONTENT
-% ============================================================
+Task ownership describes agreed responsibilities. Git history and Jira work
+items provide change evidence; a planned allocation of 20\% per member is not
+a measured contribution percentage. Evaluation must consider the content,
+tests, and documented work as well as commit counts.
 
-\setcounter{chapter}{2}
-
-\chapter{Main Proposal Content}
-
+{\small\tableofcontents}
+\listoffigures
+\listoftables
+\mainmatter
+\chapter{Project Proposal and Requirements}
 \input{sections/01-context.tex}
-
-\clearpage
-
 \input{sections/02-proposed-solutions.tex}
-
-\clearpage
-
 \input{sections/03-functional-requirements.tex}
-
-\clearpage
-
+\input{sections/13-use-case-specification.tex}
 \input{sections/04-technical-requirements.tex}
-
-\clearpage
-
 \input{sections/05-theory-practical.tex}
-
-\clearpage
-
 \input{sections/06-expected-deliverables.tex}
-
-\clearpage
-
 \input{sections/07-proposed-tasks.tex}
-
 \clearpage
-
+\chapter{System and Interface Design}
+\input{sections/08-system-architecture.tex}
 \input{sections/09-technology-stack.tex}
-
-\clearpage
-
-\input{sections/10-mobile-web-design.tex}
-
-\clearpage
-
 \input{sections/14-database-storage-architecture.tex}
-
+\clearpage
+\input{sections/15-implementation-contracts.tex}
+\clearpage
+\input{sections/10-mobile-web-design.tex}
+\clearpage
+\chapter{Prototype Handover and Verification}
+\input{sections/11-prototype-handover.tex}
+\clearpage
+\input{sections/12-verification-evidence.tex}
+\clearpage
+\input{sections/16-acceptance-and-handover.tex}
 \end{document}

@@ -1,0 +1,73 @@
+\section{Repository Deliverables}
+\begin{longtable}{p{0.22\textwidth}p{0.34\textwidth}p{0.35\textwidth}}
+\caption{Evidence and implementation boundaries}\label{tab:submission-evidence}\\
+\toprule
+\textbf{Deliverable} & \textbf{Repository evidence} & \textbf{Boundary}\\
+\midrule\endfirsthead
+\toprule\textbf{Deliverable} & \textbf{Repository evidence} & \textbf{Boundary}\\\midrule\endhead
+Mobile app & \path{apps/mobile/lib/}, \path{apps/mobile/test/} & Flutter source and demonstration data; device build and shared API integration require separate evidence.\\
+Web portals & \path{apps/web/src/}, \path{apps/web/package.json} & React/TypeScript interface for lab and admin workflows; local demonstration state.\\
+Business API & \path{backend/server.js}, \path{backend/authMiddleware.js} & Express endpoints with PostgreSQL dependency; configured database and integration tests are required.\\
+AI prototype & \path{ai_service/}, \path{ai_service/openapi.json} & Local recommendation, retrieval, grounded extraction, and scan-quality heuristics.\\
+AI validation & \path{tests/}, \path{scripts/evaluate_ai.py}, \path{scripts/smoke_test.py} & Automated tests and reproducible evaluation scripts; synthetic/local results do not demonstrate production quality.\\
+Deployment design & \path{Dockerfile}, \path{infra/azure/}, \path{.github/workflows/} & Container, infrastructure, and workflow definitions; presence of files is not proof of a live deployment.\\
+Design report & \path{CNPM_Report.tex}, \path{sections/}, \path{docs/} & Consolidated requirements, responsibilities, architecture, interface flows, and submission evidence.\\
+\bottomrule
+\end{longtable}
+
+\section{Demonstration Procedure}
+\begin{enumerate}
+\item Install the web dependencies in \path{apps/web/} with
+\texttt{npm ci}; run \texttt{npm run build} and \texttt{npm run dev}.
+Open the local address printed by Vite.
+\item Demonstrate Film Lab and Admin portal navigation, order search/filtering,
+processing stages, marketplace/archive views, and available form validation.
+Describe each operation as a local prototype action unless a verified API
+response and persistent database result are shown.
+\item For mobile, install a compatible Flutter SDK, run
+\texttt{flutter pub get}, \texttt{flutter analyze}, and \texttt{flutter test}
+inside \path{apps/mobile/}. Launch a supported device target with
+\texttt{flutter run}. Source inspection alone is not a device test.
+\item From the repository root, install Python project dependencies and run
+\texttt{python -m unittest discover -s tests -v}. Start the AI adapter with
+\texttt{python -m ai\_service.api}; use \path{/health}, \path{/ready}, and
+\path{/openapi.json} to inspect its contract.
+\item Present one supported photography question, one unsupported question,
+and one recommendation request. Explain the local knowledge/data boundary and
+show how insufficient evidence is reported.
+\item Open this report and the acceptance/submission documents in \path{docs/}.
+Relate each demonstrated feature to the relevant requirement and work item.
+\end{enumerate}
+
+\section{Acceptance and Remaining Integration Work}
+For each requirement, record its identifier, owner, code or document path,
+test procedure, observed result, and unresolved dependency. A feature is
+complete only when its agreed acceptance criteria have supporting evidence.
+Interface mockups, implemented local interactions, automated unit tests, and
+verified end-to-end operations are distinct evidence levels.
+
+Before claiming the complete platform is operational, the team must verify:
+\begin{itemize}
+\item database schema and repeatable migrations, seeded non-sensitive test
+data, configured secrets, and authorization for each protected resource;
+\item mobile/web authentication and shared API integration, including
+cross-user isolation, failure states, and persistence after reload;
+\item private cloud uploads, ownership checks, scan publication and downloads;
+\item real payment, logistics, and notification adapters, or an explicitly
+documented decision to exclude them from the assessed prototype;
+\item supported-device mobile builds, end-to-end tests, accessibility checks,
+and performance/recovery measurements against the proposed targets;
+\item deployment health, backup and restore verification, and reproducible
+release configuration before calling the system production ready.
+\end{itemize}
+
+\section{Contribution and Submission Evidence}
+The source repository is the primary record of implemented changes. Each
+meaningful commit should describe a coherent change and, where available,
+reference its Jira issue. Jira items should link to the resulting code,
+document, test evidence, or demonstration and describe unresolved dependencies.
+Only move an item to Done when its actual acceptance criteria are satisfied.
+
+Contribution evidence should connect each member's requirements, implemented
+artifacts, tests and reviews. Commit counts alone do not measure completeness
+or quality; planned work must remain distinct from completed work.

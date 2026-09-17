@@ -1,9 +1,10 @@
 require("dotenv").config();
 const verifyToken = require("./authMiddleware");
+const { requireAdmin, requireRoles } = require("./authMiddleware");
+const { getJwtSecret, signAccessToken } = require("./authConfig");
 const express = require("express");
 const cors = require("cors");
 const pool = require("./db");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 const app = express();
@@ -11,7 +12,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-console.log("SERVER VERSION 123");
 
 /*
 ==================================
@@ -22,7 +22,7 @@ app.post("/auth/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
+    if (typeof email !== "string" || typeof password !== "string" || !email.trim() || !password) {
       return res.status(400).json({
         message: "Email and password are required",
       });
@@ -34,8 +34,8 @@ app.post("/auth/login", async (req, res) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({
-        message: "User not found",
+      return res.status(401).json({
+        message: "Invalid email or password",
       });
     }
 
@@ -48,21 +48,11 @@ app.post("/auth/login", async (req, res) => {
 
     if (!validPassword) {
       return res.status(401).json({
-        message: "Invalid password",
+        message: "Invalid email or password",
       });
     }
 
-    const token = jwt.sign(
-      {
-        id: user.id,
-        email: user.email,
-        role: user.role,
-      },
-      process.env.JWT_SECRET || "SECRET_KEY",
-      {
-        expiresIn: "1h",
-      }
-    );
+    const token = signAccessToken(user);
 
     return res.status(200).json({
       message: "Login successful",
@@ -78,7 +68,7 @@ app.post("/auth/login", async (req, res) => {
     console.error("LOGIN ERROR:", err);
 
     return res.status(500).json({
-      error: err.message,
+      error: "The request could not be completed",
     });
   }
 });
@@ -88,7 +78,7 @@ app.post("/auth/login", async (req, res) => {
 DATABASE TEST
 ==================================
 */
-pool.query("SELECT NOW()")
+if (require.main === module) pool.query("SELECT NOW()")
   .then(() => console.log("DATABASE CONNECTED"))
   .catch(err => console.log("DB ERROR:", err.message));
 
@@ -103,7 +93,7 @@ app.get("/", async (req, res) => {
     res.json(result.rows[0]);
   } catch (err) {
     res.status(500).json({
-      error: err.message,
+      error: "The request could not be completed",
     });
   }
 });
@@ -113,7 +103,7 @@ app.get("/", async (req, res) => {
 LIST TABLES
 ==================================
 */
-app.get("/tables", async (req, res) => {
+app.get("/tables", verifyToken, requireAdmin, async (req, res) => {
   try {
     const result = await pool.query(`
       SELECT table_name
@@ -124,7 +114,7 @@ app.get("/tables", async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({
-      error: err.message,
+      error: "The request could not be completed",
     });
   }
 });
@@ -134,7 +124,7 @@ app.get("/tables", async (req, res) => {
 TABLE SCHEMA
 ==================================
 */
-app.get("/schema/:table", async (req, res) => {
+app.get("/schema/:table", verifyToken, requireAdmin, async (req, res) => {
   try {
     const result = await pool.query(
       `
@@ -150,7 +140,7 @@ app.get("/schema/:table", async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({
-      error: err.message,
+      error: "The request could not be completed",
     });
   }
 });
@@ -160,7 +150,7 @@ app.get("/schema/:table", async (req, res) => {
 LIST USERS
 ==================================
 */
-app.get("/users", async (req, res) => {
+app.get("/users", verifyToken, requireAdmin, async (req, res) => {
   try {
     const result = await pool.query(`
       SELECT id, email, role
@@ -170,7 +160,7 @@ app.get("/users", async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({
-      error: err.message,
+      error: "The request could not be completed",
     });
   }
 });
@@ -180,10 +170,10 @@ app.get("/users", async (req, res) => {
 FULL USERS
 ==================================
 */
-app.get("/users/full", async (req, res) => {
+app.get("/users/full", verifyToken, requireAdmin, async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT *
+      SELECT id, email, role
       FROM users
       LIMIT 5
     `);
@@ -191,7 +181,7 @@ app.get("/users/full", async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({
-      error: err.message,
+      error: "The request could not be completed",
     });
   }
 });
@@ -215,7 +205,7 @@ app.get("/labs", verifyToken, async (req, res) => {
   } catch (err) {
 
     res.status(500).json({
-      error: err.message
+      error: "The request could not be completed"
     });
 
   }
@@ -234,7 +224,7 @@ app.get("/courses", verifyToken, async (req, res) => {
   } catch (err) {
 
     res.status(500).json({
-      error: err.message
+      error: "The request could not be completed"
     });
 
   }
@@ -245,7 +235,8 @@ app.get("/orders", verifyToken, async (req, res) => {
   try {
 
     const result = await pool.query(
-      "SELECT * FROM orders"
+      req.user.role === "admin" ? "SELECT * FROM orders" : "SELECT * FROM orders WHERE user_id = $1",
+      req.user.role === "admin" ? [] : [req.user.id]
     );
 
     res.json(result.rows);
@@ -253,7 +244,7 @@ app.get("/orders", verifyToken, async (req, res) => {
   } catch (err) {
 
     res.status(500).json({
-      error: err.message
+      error: "The request could not be completed"
     });
 
   }
@@ -264,10 +255,13 @@ app.get("/orders", verifyToken, async (req, res) => {
 API tạo lap course order
 ==================================
 */
-app.post("/labs", verifyToken, async (req, res) => {
+app.post("/labs", verifyToken, requireRoles("admin", "lab_owner"), async (req, res) => {
   try {
 
-    const { name, address, description, rating } = req.body;
+    const { name, address, description = "" } = req.body;
+    if (typeof name !== "string" || !name.trim() || name.length > 200 || typeof address !== "string" || !address.trim() || address.length > 500 || typeof description !== "string" || description.length > 5000) {
+      return res.status(400).json({ message: "Valid lab name, address and description are required" });
+    }
 
     const result = await pool.query(
       `
@@ -281,7 +275,7 @@ app.post("/labs", verifyToken, async (req, res) => {
         name,
         address,
         description,
-        rating
+        0
       ]
     );
 
@@ -290,12 +284,12 @@ app.post("/labs", verifyToken, async (req, res) => {
   } catch (err) {
 
     res.status(500).json({
-      error: err.message
+      error: "The request could not be completed"
     });
 
   }
 });
-app.post("/courses", verifyToken, async (req, res) => {
+app.post("/courses", verifyToken, requireRoles("admin", "expert"), async (req, res) => {
 
   const {
     course_name,
@@ -304,6 +298,10 @@ app.post("/courses", verifyToken, async (req, res) => {
     start_date,
     end_date
   } = req.body;
+
+  if (typeof course_name !== "string" || !course_name.trim() || course_name.length > 200 || typeof description !== "string" || description.length > 5000 || !["draft", "published", "cancelled"].includes(status) || !Number.isFinite(Date.parse(start_date)) || !Number.isFinite(Date.parse(end_date)) || Date.parse(end_date) < Date.parse(start_date)) {
+    return res.status(400).json({ message: "Valid course details, status and date range are required" });
+  }
 
   const result = await pool.query(
     `
@@ -330,13 +328,20 @@ app.post("/courses", verifyToken, async (req, res) => {
   res.json(result.rows[0]);
 
 });
-app.post("/orders", verifyToken, async (req, res) => {
+app.post("/orders", verifyToken, requireRoles("admin", "photographer"), async (req, res) => {
 
   const {
     lab_id,
     service_id,
-    total_price
+    quantity = 1
   } = req.body;
+
+  if (![lab_id, service_id, quantity].every(Number.isSafeInteger) || lab_id < 1 || service_id < 1 || quantity < 1 || quantity > 100) {
+    return res.status(400).json({ message: "Valid lab_id, service_id and quantity (1-100) are required" });
+  }
+  const service = await pool.query("SELECT price FROM services WHERE id = $1 AND lab_id = $2 AND active = TRUE", [service_id, lab_id]);
+  if (!service.rows.length) return res.status(400).json({ message: "The selected service is not available at this lab" });
+  const total_price = Number(service.rows[0].price) * quantity;
 
   const result = await pool.query(
     `
@@ -346,9 +351,10 @@ app.post("/orders", verifyToken, async (req, res) => {
       lab_id,
       service_id,
       status,
-      total_price
+      total_price,
+      quantity
     )
-    VALUES ($1,$2,$3,$4,$5)
+    VALUES ($1,$2,$3,$4,$5,$6)
     RETURNING *
     `,
     [
@@ -356,7 +362,8 @@ app.post("/orders", verifyToken, async (req, res) => {
       lab_id,
       service_id,
       "pending",
-      total_price
+      total_price,
+      quantity
     ]
   );
 
@@ -364,6 +371,16 @@ app.post("/orders", verifyToken, async (req, res) => {
 
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.use((error, req, res, next) => {
+  if (error.type === "entity.parse.failed") return res.status(400).json({ message: "Invalid JSON body" });
+  console.error("REQUEST ERROR:", error.message);
+  res.status(500).json({ message: "The request could not be completed" });
 });
+
+if (require.main === module) {
+  getJwtSecret();
+  app.listen(PORT, "127.0.0.1", () => {
+    console.log(`Server running on http://127.0.0.1:${PORT}`);
+  });
+}
+module.exports = app;
